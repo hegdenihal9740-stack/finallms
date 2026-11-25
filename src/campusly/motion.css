@@ -99,7 +99,7 @@
   }
   .roadmap-page .roadmap-module-art {
     opacity: 1 !important;
-    transform: translateZ(24px) !important;
+    transform: translateZ(52px) !important;
     filter: none !important;
   }
   .roadmap-page .roadmap-module-art g[filter],

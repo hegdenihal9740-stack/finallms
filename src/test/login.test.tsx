@@ -22,14 +22,47 @@ afterEach(() => {
 });
 
 describe("student login", () => {
-  it("keeps the sign-in button stationary when the pointer moves", () => {
+  it("moves on an empty tap instead of showing browser required-field validation", () => {
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function getBoundingClientRect() {
+      if (this.classList.contains("login-cta-dock")) {
+        return { left: 0, top: 0, width: 360, height: 68 };
+      }
+      if (this.tagName === "BUTTON" && this.classList.contains("login-submit")) {
+        return { left: 85, top: 11, width: 190, height: 46 };
+      }
+      return { left: 0, top: 0, width: 0, height: 0 };
+    });
     render(<Login onLogin={vi.fn()} previewMode={false} />);
 
     const dock = screen.getByRole("group", { name: "Sign-in action" });
     const button = screen.getByRole("button", { name: "Sign in" });
-    fireEvent.pointerMove(dock, { pointerType: "mouse", clientX: 180, clientY: 34 });
-    expect(button.style.getPropertyValue("--login-cta-x")).toBe("");
-    expect(dock).not.toHaveClass("is-displaced");
+
+    expect(fireEvent.click(button, { clientX: 180, clientY: 34 })).toBe(false);
+    expect(button.style.getPropertyValue("--login-cta-x")).not.toBe("0px");
+    expect(dock).toHaveClass("is-displaced");
+  });
+
+  it("dodges a touch pointer until credentials are entered, then unlocks", () => {
+    const bounds = vi
+      .spyOn(HTMLElement.prototype, "getBoundingClientRect")
+      .mockImplementation(function getBoundingClientRect() {
+        if (this.classList.contains("login-cta-dock")) {
+          return { left: 0, top: 0, width: 360, height: 68 };
+        }
+        if (this.tagName === "BUTTON" && this.classList.contains("login-submit")) {
+          return { left: 85, top: 11, width: 190, height: 46 };
+        }
+        return { left: 0, top: 0, width: 0, height: 0 };
+      });
+    render(<Login onLogin={vi.fn()} previewMode={false} />);
+
+    const dock = screen.getByRole("group", { name: "Sign-in action" });
+    const button = screen.getByRole("button", { name: "Sign in" });
+    fireEvent.pointerMove(dock, { pointerType: "touch", clientX: 180, clientY: 34 });
+    expect(button.style.getPropertyValue("--login-cta-x")).not.toBe("0px");
+    expect(dock).toHaveClass("is-displaced");
+    const tether = dock.querySelector(".login-cta-tether") as HTMLSpanElement;
+    expect(Number.parseFloat(tether.style.getPropertyValue("--login-tether-length"))).toBeGreaterThan(0);
 
     fireEvent.change(screen.getByLabelText("Email address or demo registration number"), {
       target: { value: "MBD-2026-0148" },
@@ -40,8 +73,10 @@ describe("student login", () => {
 
     expect(dock).toHaveClass("is-unlocked");
     expect(dock).not.toHaveClass("is-displaced");
-    fireEvent.pointerMove(dock, { pointerType: "mouse", clientX: 180, clientY: 34 });
-    expect(button.style.getPropertyValue("--login-cta-x")).toBe("");
+    expect(button.style.getPropertyValue("--login-cta-x")).toBe("0px");
+    fireEvent.pointerMove(dock, { pointerType: "touch", clientX: 180, clientY: 34 });
+    expect(button.style.getPropertyValue("--login-cta-x")).toBe("0px");
+    bounds.mockRestore();
   });
 
   it("recovers demo sign-in when an older saved password conflicts with the default", async () => {

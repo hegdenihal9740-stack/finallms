@@ -30,6 +30,12 @@ import { NotebookPen, Wallet, MapPin, Layers, Moon, Sun, Brain, ChartLine, Cloud
 const MODULE_AI_ICONS = { 1: Brain, 2: Database, 3: ChartLine, 4: Cloud, 5: PieChart, 6: Workflow, 7: ScanEye, 8: Bot, 9: WandSparkles, 10: Rocket }
 
 const LOGIN_ONBOARDING_KEY = 'campusly-login-onboarding-step'
+const LOGIN_DODGE_PATH = [
+  { x: -0.78, y: 0.18 },
+  { x: 0.78, y: -0.18 },
+  { x: -0.42, y: -0.24 },
+  { x: 0.42, y: 0.24 },
+]
 
 function ThemeToggle() {
   const [dark, setDark] = useState(false)
@@ -183,12 +189,19 @@ function nextClass(timetable, now = new Date()) {
 export function Login({ onLogin, previewMode }) {
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
+  const [loginCtaPosition, setLoginCtaPosition] = useState({ x: 0, y: 0 })
+  const [loginCtaDodgeStep, setLoginCtaDodgeStep] = useState(0)
+  const lastLoginDodge = useRef(-Infinity)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [forgot, setForgot] = useState(false)
   const [sent, setSent] = useState(false)
   const loginCtaUnlocked = Boolean(identifier.trim() && (forgot || password.length))
+  const loginCtaOffset = loginCtaUnlocked ? { x: 0, y: 0 } : loginCtaPosition
+  const loginCtaTetherLength = Math.hypot(loginCtaOffset.x, loginCtaOffset.y)
+  const loginCtaTetherAngle = Math.atan2(loginCtaOffset.y, loginCtaOffset.x) * (180 / Math.PI)
+  const loginCtaDisplaced = loginCtaTetherLength > 0
   async function verifyDemoPassword(candidate) {
     const savedPassword = localStorage.getItem(DEMO_PASSWORD_KEY)
     if (!savedPassword) return candidate === DEMO_USER.password
@@ -196,6 +209,41 @@ export function Login({ onLogin, previewMode }) {
     if (candidate !== DEMO_USER.password) return false
     localStorage.removeItem(DEMO_PASSWORD_KEY)
     return true
+  }
+  function dodgeLoginCta(e) {
+    if (
+      forgot ||
+      loginCtaUnlocked ||
+      busy ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) return
+    const dock = e.currentTarget.closest('.login-cta-dock')
+    if (!dock) return
+    const button = dock.querySelector('button')
+    if (!button) return
+    const buttonBounds = button.getBoundingClientRect()
+    const distance = Math.hypot(
+      e.clientX - (buttonBounds.left + buttonBounds.width / 2),
+      e.clientY - (buttonBounds.top + buttonBounds.height / 2),
+    )
+    const now = performance.now()
+    if (e.type !== 'click' && (distance > 68 || now - lastLoginDodge.current < 380)) return
+    const dockBounds = dock.getBoundingClientRect()
+    const move = LOGIN_DODGE_PATH[loginCtaDodgeStep % LOGIN_DODGE_PATH.length]
+    const maxX = Math.max(0, (dockBounds.width - buttonBounds.width) / 2 - 8)
+    const maxY = Math.max(0, (dockBounds.height - buttonBounds.height) / 2 - 3)
+    lastLoginDodge.current = now
+    setLoginCtaPosition({ x: move.x * maxX, y: move.y * maxY })
+    setLoginCtaDodgeStep((step) => step + 1)
+  }
+  function handleLoginCtaClick(e) {
+    if (
+      forgot ||
+      loginCtaUnlocked ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) return
+    e.preventDefault()
+    dodgeLoginCta(e)
   }
   async function submit(e) {
     e.preventDefault()
@@ -265,14 +313,29 @@ export function Login({ onLogin, previewMode }) {
         </>
               )}
         <div
-          className={`login-cta-dock ${loginCtaUnlocked ? 'is-unlocked' : 'is-locked'}`}
+          className={`login-cta-dock ${loginCtaUnlocked ? 'is-unlocked' : 'is-locked'}${loginCtaDisplaced ? ' is-displaced' : ''}`}
           role="group"
           aria-label={forgot ? 'Password reset action' : 'Sign-in action'}
+          onPointerMove={dodgeLoginCta}
         >
+          <span className="login-cta-anchor" aria-hidden="true"/>
+          <span
+            className="login-cta-tether"
+            aria-hidden="true"
+            style={{
+              '--login-tether-length': `${loginCtaTetherLength}px`,
+              '--login-tether-angle': `${loginCtaTetherAngle}deg`,
+            }}
+          />
           <Button
             className="primary-button login-submit h-auto"
             type="submit"
             disabled={busy}
+            onClick={handleLoginCtaClick}
+            style={{
+              '--login-cta-x': `${loginCtaOffset.x}px`,
+              '--login-cta-y': `${loginCtaOffset.y}px`,
+            }}
           >
             {busy ? 'Please wait…' : forgot ? 'Send reset link' : 'Sign in'} <ArrowRight size={17}/>
           </Button>
