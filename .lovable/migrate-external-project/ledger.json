@@ -1,0 +1,12 @@
+[
+  {"capability":"code","source":"github hegdenihal9740-stack/learning-hub-41","outcome":"migrate","status":"verified","next_action":""},
+  {"capability":"schema","source":"student_feedback migration","outcome":"migrate","status":"verified","next_action":""},
+  {"capability":"records","source":"student_feedback rows in old Cloud","outcome":"migrate","status":"pending","next_action":"Source roadmap reports no auth users, so likely none; import a CSV if the user supplies one"},
+  {"capability":"auth identities","source":"Old Cloud auth users","outcome":"migrate","status":"pending","next_action":"Staff add students via Users; import if user reports existing accounts"},
+  {"capability":"authorization","source":"RLS own-row read/insert","outcome":"migrate","status":"verified","next_action":"Checked via simulated students in SQL"},
+  {"capability":"auth methods","source":"Email/password login-only, Google, reset page","outcome":"migrate","status":"implemented","next_action":"Live sign-in untested: no student accounts yet"},
+  {"capability":"uploaded file bytes","source":"Old-project CDN pointers (logo, 3D model), unused by rendered pages","outcome":"accept","status":"accepted","next_action":"Visible app uses bundled images"},
+  {"capability":"public endpoints/webhooks/schedules","source":"none","outcome":"none","status":"verified","next_action":""},
+  {"capability":"secrets","source":"old Cloud connection values only","outcome":"replace","status":"verified","next_action":""},
+  {"capability":"verification","source":"84 tests pass, build OK, sign-in and reset pages load","outcome":"verify","status":"verified","next_action":""}
+]

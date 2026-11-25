@@ -1,0 +1,115 @@
+/* Skill AI motion layer. Every animation is disabled for reduced-motion users at the bottom. */
+@property --sa-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+@keyframes sa-rise { from { opacity: 0; transform: translateY(14px) scale(0.985); } to { opacity: 1; transform: none; } }
+@keyframes sa-slide-in { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@keyframes sa-spin-border { to { --sa-angle: 360deg; } }
+@keyframes sa-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes sa-shine { from { transform: translateX(-120%) skewX(-18deg); } to { transform: translateX(220%) skewX(-18deg); } }
+@keyframes sa-aurora { 0% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(-18px, 26px, 0) scale(1.08); } 100% { transform: translate3d(0, 0, 0) scale(1); } }
+@keyframes sa-pop { 0% { transform: scale(0.9); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes sa-ping { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--sa-danger) 55%, transparent); } 100% { box-shadow: 0 0 0 8px transparent; } }
+@keyframes sa-dock { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+
+/* Sign-in: the card arrives and the logo floats. */
+.login-page .login-form { animation: sa-rise 0.8s var(--sa-ease) both; }
+.login-page .login-form::before { animation: none; }
+.login-page .portal-logo-login { animation: sa-float 4.5s ease-in-out infinite; }
+.login-page .login-form > * { animation: sa-rise 0.6s var(--sa-ease) both; }
+.login-page .login-form > *:nth-child(2) { animation-delay: 0.08s; }
+.login-page .login-form > *:nth-child(3) { animation-delay: 0.14s; }
+.login-page .login-form > *:nth-child(4) { animation-delay: 0.2s; }
+.login-page .login-form > *:nth-child(5) { animation-delay: 0.26s; }
+.login-page .login-form > *:nth-child(6) { animation-delay: 0.32s; }
+.login-page .login-form > *:nth-child(n + 7) { animation-delay: 0.38s; }
+
+/* Page content: sections rise in one after another whenever a page opens. */
+.content-area > .page-stack > *,
+.content-area > .mobile-page-heading,
+.hub > *:not(.hub-top),
+.hub-top > *:not(.hub-hero) { animation: sa-rise 0.6s var(--sa-ease) both; }
+.content-area > .page-stack > *:nth-child(2), .hub > *:nth-child(2), .hub-top > *:nth-child(2) { animation-delay: 0.07s; }
+.content-area > .page-stack > *:nth-child(3), .hub > *:nth-child(3), .hub-top > *:nth-child(3) { animation-delay: 0.14s; }
+.content-area > .page-stack > *:nth-child(4), .hub > *:nth-child(4), .hub-top > *:nth-child(4) { animation-delay: 0.21s; }
+.content-area > .page-stack > *:nth-child(5), .hub > *:nth-child(5) { animation-delay: 0.28s; }
+.content-area > .page-stack > *:nth-child(n + 6), .hub > *:nth-child(n + 6) { animation-delay: 0.34s; }
+
+/* Cards lift gently under the pointer. */
+@media (hover: hover) {
+  .app-shell .panel, .app-shell .stat-card {
+    transition: transform 0.35s var(--sa-ease), box-shadow 0.35s var(--sa-ease), border-color 0.35s;
+  }
+  .app-shell .stat-card:hover, .app-shell .panel:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sa-shadow-lg);
+    border-color: color-mix(in oklab, var(--sa-ember) 22%, transparent);
+  }
+}
+
+/* Primary buttons: a light sweep on hover. */
+.app-shell .primary-button::after, .login-form .primary-button::after {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--sa-white) 45%, transparent), transparent);
+  transform: translateX(-120%) skewX(-18deg);
+}
+.app-shell .primary-button:hover::after, .login-form .primary-button:hover::after { animation: sa-shine 0.9s var(--sa-ease); }
+.app-shell .primary-button, .login-form .primary-button { transition: transform 0.25s var(--sa-ease), filter 0.25s, box-shadow 0.25s; }
+.app-shell .primary-button:active, .login-form .primary-button:active { transform: scale(0.97); }
+
+.app-shell .sidebar .nav-group { animation: sa-slide-in 0.55s var(--sa-ease) both; }
+.app-shell .sidebar .nav-group:nth-child(2) { animation-delay: 0.06s; }
+.app-shell .sidebar .nav-group:nth-child(3) { animation-delay: 0.12s; }
+.app-shell .sidebar .nav-group:nth-child(4) { animation-delay: 0.18s; }
+.app-shell .sidebar .nav-group:nth-child(n + 5) { animation-delay: 0.24s; }
+.app-shell .sidebar .nav-link.active > svg { animation: sa-pop 0.45s var(--sa-ease); }
+
+/* Top bar: the unread dot pulses. */
+.app-shell .notification-button i { animation: sa-ping 1.8s ease-out infinite; }
+
+/* Mobile bottom bar docks in. */
+.app-shell:not(.drawer-open) + .bottom-nav { animation: sa-dock 0.6s var(--sa-ease) 0.15s backwards; }
+.bottom-nav .bn-item { transition: background 0.3s var(--sa-ease), color 0.3s, transform 0.25s var(--sa-ease); }
+.bottom-nav .bn-item:active { transform: scale(0.94); }
+
+@media (prefers-reduced-motion: reduce) {
+  .login-page .login-form, .login-page .login-form::before, .login-page .portal-logo-login, .login-page .login-form > *,
+  .content-area > .page-stack > *, .content-area > .mobile-page-heading, .hub > *:not(.hub-top), .hub-top > *:not(.hub-hero),
+  .app-shell .sidebar .nav-group, .app-shell .sidebar .nav-link.active > svg,
+  .app-shell .notification-button i, .app-shell:not(.drawer-open) + .bottom-nav, .app-shell .primary-button::after, .login-form .primary-button::after {
+    animation: none !important;
+  }
+  .app-shell .panel, .app-shell .stat-card { transition: none !important; transform: none !important; }
+}
+
+/* Touch roadmaps render modules immediately and avoid stacked SVG/filter animations. */
+@media (max-width: 640px), (pointer: coarse) {
+  .content-area > .page-stack.roadmap-page > * {
+    animation: none !important;
+  }
+  .roadmap-page .roadmap-module-item,
+  .roadmap-page .roadmap-module-item *,
+  .roadmap-page .roadmap-module-platform::before,
+  .roadmap-page .roadmap-module-platform::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .roadmap-page .roadmap-module-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .roadmap-page .roadmap-module-art {
+    opacity: 1 !important;
+    transform: translateZ(24px) !important;
+    filter: none !important;
+  }
+  .roadmap-page .roadmap-module-art g[filter],
+  .roadmap-page .roadmap-module-track-mobile [filter],
+  .roadmap-page .roadmap-road-build-head,
+  .roadmap-page .roadmap-runner {
+    filter: none !important;
+  }
+  .roadmap-page .roadmap-module-connector-mark {
+    opacity: 1;
+    scale: 1;
+  }
+}

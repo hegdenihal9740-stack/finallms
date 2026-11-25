@@ -1,0 +1,4228 @@
+/* Skill AI professional layer: loaded after every portal stylesheet. Uses --sa-* tokens only. */
+:root { font-family: var(--sa-font-body); color: var(--sa-ink); }
+body { background: var(--sa-paper); }
+h1, h2, h3, h4 { font-family: var(--sa-font-display); letter-spacing: -0.02em; }
+.eyebrow { color: var(--sa-ember); letter-spacing: 0.16em; }
+
+/* Notification cards stay readable and every card opens its relevant portal section. */
+.app-shell .notification-list {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+.app-shell .notification-card {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  flex-wrap: nowrap;
+  cursor: pointer;
+}
+.app-shell .notification-card:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 3px;
+}
+.app-shell .notification-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+}
+.app-shell .notification-content {
+  min-width: 0;
+  width: 100%;
+}
+.app-shell .notification-title {
+  min-width: 0;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.app-shell .notification-title strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .notification-content p,
+.app-shell .notification-content > span {
+  max-width: 100%;
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+.app-shell .notification-content > span {
+  display: flex;
+  align-items: flex-start;
+  min-height: 16px;
+}
+.app-shell .notification-content > span svg {
+  flex: 0 0 13px;
+  margin-top: 1px;
+}
+
+.status-pill.status-passed {
+  color: var(--sa-success);
+  background: color-mix(in oklab, var(--sa-success) 10%, var(--sa-white));
+  border-color: color-mix(in oklab, var(--sa-success) 24%, var(--sa-line));
+}
+.status-pill.status-retest,
+.status-pill.status-failed-retest-tomorrow,
+.status-pill.status-retest-window-expired,
+.status-pill.status-lecturer-approval-required,
+.status-pill.status-lecturer-approval-at-next-class {
+  color: var(--sa-ember-strong);
+  background: color-mix(in oklab, var(--sa-ember) 11%, var(--sa-white));
+  border-color: color-mix(in oklab, var(--sa-ember) 26%, var(--sa-line));
+}
+.status-pill.status-locked {
+  color: var(--sa-ink-muted);
+  background: color-mix(in oklab, var(--sa-ink-muted) 7%, var(--sa-white));
+  border-color: color-mix(in oklab, var(--sa-ink-muted) 18%, var(--sa-line));
+}
+
+/* Scroll-built route highlight: the student's progress reveals a lit stretch of road. */
+.roadmap-page .roadmap-road-construction-glow {
+  fill: none;
+  stroke: var(--sa-teal);
+  stroke-width: 64;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.2;
+  pointer-events: none;
+}
+.roadmap-page .roadmap-road-construction {
+  fill: none;
+  stroke: color-mix(in oklab, var(--sa-teal) 68%, var(--sa-white));
+  stroke-width: 48;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.22;
+  pointer-events: none;
+}
+.roadmap-page .roadmap-road-build-head {
+  fill: var(--sa-white);
+  stroke: var(--sa-gold);
+  stroke-width: 6;
+  filter: drop-shadow(0 0 7px color-mix(in oklab, var(--sa-teal) 78%, transparent));
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+/* Keep the current-module beacon close to its 3D platform. */
+.roadmap-page .journey-current .roadmap-here-beacon {
+  top: -6px;
+}
+
+.roadmap-page .journey-current .roadmap-module-card-compact {
+  align-items: center;
+  gap: 8px;
+}
+.roadmap-page .journey-current .roadmap-module-card-compact .roadmap-module-title {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.app-shell .calendar-class-card.calendar-rescheduled-class {
+  border-left-color: var(--sa-ember);
+  background: linear-gradient(
+    140deg,
+    color-mix(in oklab, var(--sa-ember) 9%, var(--sa-white)),
+    var(--sa-white)
+  );
+}
+.app-shell .calendar-rescheduled-class .calendar-module-label,
+.app-shell .calendar-rescheduled-notice .calendar-module-label {
+  color: var(--sa-ember-strong);
+}
+.app-shell .calendar-session-topic {
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.app-shell .calendar-class-card.calendar-rescheduled-notice {
+  border: 1px dashed color-mix(in oklab, var(--sa-ember) 55%, var(--sa-line));
+  border-left: 5px solid var(--sa-ember);
+  background: color-mix(in oklab, var(--sa-ember) 6%, var(--sa-white));
+}
+
+.quiz-celebration-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 24px;
+  background: color-mix(in oklab, var(--sa-ink) 72%, transparent);
+  animation: quiz-celebration-fade-in 180ms ease-out both;
+}
+.quiz-celebration-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 430px);
+  padding: 38px 30px 30px;
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 55%, var(--sa-line));
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 8% 100%, color-mix(in oklab, var(--sa-teal) 14%, transparent), transparent 34%),
+    radial-gradient(circle at 92% 100%, color-mix(in oklab, var(--sa-danger) 13%, transparent), transparent 34%),
+    radial-gradient(circle at 50% 0, color-mix(in oklab, var(--sa-gold) 22%, transparent), transparent 46%),
+    var(--sa-white);
+  color: var(--sa-ink);
+  text-align: center;
+  box-shadow: 0 24px 80px color-mix(in oklab, var(--sa-ink) 35%, transparent);
+  animation: quiz-celebration-card-in 420ms cubic-bezier(.2, .85, .3, 1.15) both;
+}
+.quiz-celebration-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--sa-ink) 6%, var(--sa-white));
+  color: var(--sa-ink-muted);
+  cursor: pointer;
+}
+.quiz-celebration-trophy {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 15px;
+  place-items: center;
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 60%, var(--sa-line));
+  border-radius: 22px;
+  background: conic-gradient(
+    from 220deg,
+    color-mix(in oklab, var(--sa-teal) 28%, var(--sa-white)),
+    color-mix(in oklab, var(--sa-gold) 34%, var(--sa-white)),
+    color-mix(in oklab, var(--sa-danger) 20%, var(--sa-white)),
+    color-mix(in oklab, var(--sa-success) 25%, var(--sa-white)),
+    color-mix(in oklab, var(--sa-teal) 28%, var(--sa-white))
+  );
+  color: var(--sa-ember-strong);
+  box-shadow:
+    0 10px 24px color-mix(in oklab, var(--sa-gold) 20%, transparent),
+    0 0 24px color-mix(in oklab, var(--sa-teal) 18%, transparent);
+}
+.quiz-celebration-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--sa-ember-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.quiz-celebration-card h2 {
+  margin: 9px 0;
+  font-size: clamp(25px, 7vw, 34px);
+}
+.quiz-celebration-card p {
+  margin: 0 auto 18px;
+  color: var(--sa-ink-muted);
+  line-height: 1.55;
+}
+.quiz-celebration-score {
+  display: block;
+  margin-bottom: 22px;
+  color: var(--sa-teal);
+  font-size: 18px;
+  font-weight: 800;
+}
+.quiz-celebration-card .primary-button {
+  justify-content: center;
+  min-width: 150px;
+}
+.quiz-celebration-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.quiz-celebration-firework {
+  position: absolute;
+  color: var(--firework-color);
+}
+.quiz-celebration-firework:nth-child(9n + 1) { --firework-color: var(--sa-gold); }
+.quiz-celebration-firework:nth-child(9n + 2) { --firework-color: var(--sa-ember); }
+.quiz-celebration-firework:nth-child(9n + 3) { --firework-color: var(--sa-teal); }
+.quiz-celebration-firework:nth-child(9n + 4) { --firework-color: var(--sa-danger); }
+.quiz-celebration-firework:nth-child(9n + 5) { --firework-color: var(--sa-success); }
+.quiz-celebration-firework:nth-child(9n + 6) { --firework-color: color-mix(in oklab, var(--sa-danger) 55%, var(--sa-navy-soft)); }
+.quiz-celebration-firework:nth-child(9n + 7) { --firework-color: color-mix(in oklab, var(--sa-teal) 55%, var(--sa-navy-soft)); }
+.quiz-celebration-firework:nth-child(9n + 8) { --firework-color: color-mix(in oklab, var(--sa-gold) 65%, var(--sa-danger)); }
+.quiz-celebration-firework:nth-child(9n) { --firework-color: color-mix(in oklab, var(--sa-success) 60%, var(--sa-gold)); }
+.quiz-celebration-firework::before {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--firework-color);
+  box-shadow: 0 0 30px 16px color-mix(in oklab, var(--firework-color) 82%, transparent);
+  content: "";
+  animation: quiz-celebration-flash 1.9s ease-out 6 both;
+}
+.quiz-celebration-particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 25px;
+  border-radius: 999px;
+  background: var(--particle-color, var(--firework-color));
+  box-shadow: 0 0 15px color-mix(in oklab, var(--particle-color, var(--firework-color)) 90%, transparent);
+  filter: drop-shadow(0 0 5px var(--particle-color, var(--firework-color)));
+  opacity: 0;
+  transform-origin: center bottom;
+  animation: quiz-celebration-burst 1.9s cubic-bezier(.14, .7, .23, 1) var(--particle-delay) 6 both;
+}
+.quiz-celebration-particle:nth-child(8n + 1) { --particle-color: var(--sa-gold); }
+.quiz-celebration-particle:nth-child(8n + 2) { --particle-color: var(--sa-ember); }
+.quiz-celebration-particle:nth-child(8n + 3) { --particle-color: var(--sa-teal); }
+.quiz-celebration-particle:nth-child(8n + 4) { --particle-color: var(--sa-danger); }
+.quiz-celebration-particle:nth-child(8n + 5) { --particle-color: var(--sa-success); }
+.quiz-celebration-particle:nth-child(8n + 6) {
+  --particle-color: color-mix(in oklab, var(--sa-danger) 55%, var(--sa-navy-soft));
+}
+.quiz-celebration-particle:nth-child(8n + 7) {
+  --particle-color: color-mix(in oklab, var(--sa-teal) 55%, var(--sa-navy-soft));
+}
+.quiz-celebration-particle:nth-child(8n) {
+  --particle-color: color-mix(in oklab, var(--sa-success) 55%, var(--sa-gold));
+}
+
+.main-area[data-tab="timetable"] .timetable-hero {
+  border-color: color-mix(in oklab, var(--sa-gold) 34%, var(--sa-night));
+  background:
+    radial-gradient(ellipse at 86% 38%, color-mix(in oklab, var(--sa-gold) 24%, transparent), transparent 38%),
+    linear-gradient(118deg, var(--sa-night), var(--sa-night-2));
+  box-shadow:
+    0 20px 42px -26px color-mix(in oklab, var(--sa-night) 72%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 12%, transparent);
+}
+.main-area[data-tab="timetable"] .timetable-hero::before {
+  background: color-mix(in oklab, var(--sa-gold) 10%, transparent);
+}
+.main-area[data-tab="timetable"] .timetable-hero::after {
+  background: color-mix(in oklab, var(--sa-teal) 12%, transparent);
+}
+.main-area[data-tab="timetable"] .timetable-brand-pill {
+  border-color: color-mix(in oklab, var(--sa-gold) 58%, var(--sa-night));
+  background: linear-gradient(110deg, var(--sa-gold), var(--sa-ember));
+  box-shadow: 0 7px 18px -8px color-mix(in oklab, var(--sa-gold) 48%, transparent);
+  color: var(--sa-night);
+}
+.main-area[data-tab="timetable"] .timetable-hero h1 {
+  color: var(--sa-white);
+}
+.main-area[data-tab="timetable"] .timetable-hero h1 span {
+  color: var(--sa-gold);
+  background: linear-gradient(90deg, var(--sa-gold), var(--sa-white));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.main-area[data-tab="timetable"] .timetable-hero-copy > p {
+  color: color-mix(in oklab, var(--sa-white) 82%, var(--sa-gold));
+}
+.main-area[data-tab="timetable"] .timetable-week-pill {
+  border-color: color-mix(in oklab, var(--sa-white) 22%, transparent);
+  background: color-mix(in oklab, var(--sa-white) 9%, transparent);
+  box-shadow: inset 0 1px color-mix(in oklab, var(--sa-white) 16%, transparent);
+  color: var(--sa-white);
+}
+.main-area[data-tab="timetable"] .timetable-target-mark {
+  background: linear-gradient(145deg, var(--sa-gold), var(--sa-ember));
+  box-shadow: 0 3px 10px color-mix(in oklab, var(--sa-gold) 36%, transparent);
+}
+.main-area[data-tab="timetable"] .timetable-target-mark::after {
+  background: var(--sa-white);
+}
+.main-area[data-tab="timetable"] .timetable-target-mark i {
+  background: var(--sa-night);
+}
+.main-area[data-tab="timetable"] .timetable-art-rays i {
+  background: var(--sa-gold);
+}
+.main-area[data-tab="timetable"] .timetable-art-calendar {
+  border-color: color-mix(in oklab, var(--sa-white) 76%, var(--sa-gold));
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-gold) 16%, var(--sa-white)));
+  box-shadow:
+    0 14px 26px -13px color-mix(in oklab, var(--sa-night) 65%, transparent),
+    inset 0 0 0 5px color-mix(in oklab, var(--sa-gold) 28%, var(--sa-white));
+}
+.main-area[data-tab="timetable"] .timetable-art-rings i {
+  border-color: var(--sa-ember-strong);
+  background: var(--sa-gold);
+}
+.main-area[data-tab="timetable"] .timetable-art-cells i {
+  background: linear-gradient(145deg, color-mix(in oklab, var(--sa-gold) 28%, var(--sa-white)), var(--sa-gold));
+}
+.main-area[data-tab="timetable"] .timetable-art-cells i:nth-child(2),
+.main-area[data-tab="timetable"] .timetable-art-cells i:nth-child(6),
+.main-area[data-tab="timetable"] .timetable-art-cells i:nth-child(8) {
+  background: linear-gradient(145deg, var(--sa-ember), var(--sa-ember-strong));
+}
+.main-area[data-tab="timetable"] .timetable-art-calendar > span {
+  border-color: var(--sa-white);
+  background: linear-gradient(140deg, var(--sa-ember), var(--sa-ember-strong));
+  box-shadow: 0 3px 9px color-mix(in oklab, var(--sa-night) 35%, transparent);
+  color: var(--sa-white);
+}
+.main-area[data-tab="timetable"] .timetable-art-cap {
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--sa-gold) 50%, transparent), transparent 70%);
+  color: var(--sa-gold);
+  filter: drop-shadow(0 7px 5px color-mix(in oklab, var(--sa-night) 52%, transparent));
+}
+.main-area[data-tab="timetable"] .timetable-art-clock {
+  border-color: color-mix(in oklab, var(--sa-gold) 72%, var(--sa-white));
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-gold) 20%, var(--sa-white)));
+  box-shadow: 0 12px 18px -8px color-mix(in oklab, var(--sa-night) 55%, transparent), inset 0 0 0 2px var(--sa-white);
+  color: var(--sa-ember-strong);
+}
+.main-area[data-tab="timetable"] .timetable-art-books {
+  border-color: color-mix(in oklab, var(--sa-white) 40%, transparent);
+  background: linear-gradient(145deg, var(--sa-gold), var(--sa-ember) 58%, var(--sa-ember-strong) 60%, var(--sa-night-2));
+  box-shadow: 0 10px 15px -8px color-mix(in oklab, var(--sa-night) 68%, transparent), inset 0 2px color-mix(in oklab, var(--sa-white) 35%, transparent);
+  color: var(--sa-white);
+}
+
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero {
+  border-color: color-mix(in oklab, var(--sa-success) 30%, var(--sa-white));
+  background:
+    radial-gradient(ellipse at 87% 35%, color-mix(in oklab, var(--sa-teal) 25%, transparent), transparent 38%),
+    linear-gradient(120deg, color-mix(in oklab, var(--sa-success) 12%, var(--sa-white)), var(--sa-white) 55%, color-mix(in oklab, var(--sa-teal) 17%, var(--sa-white)));
+  box-shadow:
+    0 18px 38px -27px color-mix(in oklab, var(--sa-success) 45%, transparent),
+    inset 0 1px var(--sa-white);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero::before {
+  background: color-mix(in oklab, var(--sa-success) 12%, transparent);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero::after {
+  background: color-mix(in oklab, var(--sa-teal) 13%, transparent);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero h1 {
+  color: var(--sa-ink);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero h1 span {
+  color: var(--sa-success);
+  background: linear-gradient(90deg, var(--sa-success), var(--sa-teal));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero p {
+  color: var(--sa-ink-muted);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-brand-pill {
+  border-color: color-mix(in oklab, var(--sa-success) 28%, var(--sa-white));
+  background: linear-gradient(110deg, var(--sa-success), var(--sa-teal));
+  box-shadow: 0 7px 16px -8px color-mix(in oklab, var(--sa-success) 65%, transparent);
+  color: var(--sa-white);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-week-pill {
+  border-color: color-mix(in oklab, var(--sa-success) 20%, var(--sa-white));
+  background: color-mix(in oklab, var(--sa-white) 76%, var(--sa-success));
+  box-shadow: inset 0 1px var(--sa-white), 0 6px 14px -10px color-mix(in oklab, var(--sa-success) 60%, transparent);
+  color: var(--sa-success);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-target-mark {
+  background: linear-gradient(145deg, var(--sa-teal), var(--sa-success));
+  box-shadow: 0 3px 9px color-mix(in oklab, var(--sa-success) 35%, transparent);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-target-mark::after {
+  background: var(--sa-white);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-target-mark i {
+  background: var(--sa-white);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-rays i {
+  background: var(--sa-success);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-calendar {
+  border-color: color-mix(in oklab, var(--sa-success) 26%, var(--sa-white));
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-success) 9%, var(--sa-white)));
+  box-shadow:
+    0 14px 26px -13px color-mix(in oklab, var(--sa-success) 40%, transparent),
+    inset 0 0 0 5px color-mix(in oklab, var(--sa-success) 14%, var(--sa-white));
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-rings i {
+  border-color: var(--sa-success);
+  background: color-mix(in oklab, var(--sa-teal) 30%, var(--sa-white));
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i {
+  background: linear-gradient(145deg, color-mix(in oklab, var(--sa-teal) 17%, var(--sa-white)), color-mix(in oklab, var(--sa-success) 38%, var(--sa-white)));
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i:nth-child(2),
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i:nth-child(6),
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i:nth-child(8) {
+  background: linear-gradient(145deg, var(--sa-teal), var(--sa-success));
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-calendar > span {
+  background: linear-gradient(140deg, var(--sa-success), var(--sa-teal));
+  box-shadow: 0 3px 9px color-mix(in oklab, var(--sa-success) 38%, transparent);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cap {
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--sa-teal) 35%, transparent), transparent 70%);
+  color: var(--sa-success);
+  filter: drop-shadow(0 7px 5px color-mix(in oklab, var(--sa-success) 25%, transparent));
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-clock {
+  border-color: color-mix(in oklab, var(--sa-success) 32%, var(--sa-white));
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-success) 12%, var(--sa-white)));
+  box-shadow: 0 12px 18px -8px color-mix(in oklab, var(--sa-success) 38%, transparent), inset 0 0 0 2px var(--sa-white);
+  color: var(--sa-success);
+}
+.main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-books {
+  border-color: color-mix(in oklab, var(--sa-white) 55%, transparent);
+  background: linear-gradient(145deg, var(--sa-teal), var(--sa-success) 58%, color-mix(in oklab, var(--sa-success) 65%, var(--sa-ink)) 60%);
+  box-shadow: 0 10px 15px -8px color-mix(in oklab, var(--sa-success) 45%, transparent), inset 0 2px color-mix(in oklab, var(--sa-white) 40%, transparent);
+  color: var(--sa-white);
+}
+
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero {
+  --attendance-midnight: #10172f;
+  --attendance-indigo: #1d2c59;
+  --attendance-blue: #315bba;
+  --attendance-cyan: #67e8f9;
+  border-color: color-mix(in oklab, var(--attendance-cyan) 48%, var(--attendance-indigo));
+  background:
+    radial-gradient(ellipse at 87% 35%, color-mix(in oklab, var(--attendance-cyan) 26%, transparent), transparent 38%),
+    linear-gradient(120deg, var(--attendance-midnight), var(--attendance-indigo) 58%, #173b69);
+  box-shadow:
+    0 20px 42px -24px color-mix(in oklab, var(--attendance-midnight) 72%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 16%, transparent);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero::before {
+  background: color-mix(in oklab, var(--attendance-cyan) 13%, transparent);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero::after {
+  background: color-mix(in oklab, var(--attendance-blue) 30%, transparent);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero h1 {
+  color: var(--sa-white);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero h1 span {
+  color: var(--attendance-cyan);
+  background: linear-gradient(90deg, var(--attendance-cyan), #c4b5fd);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero p {
+  color: color-mix(in oklab, var(--sa-white) 78%, var(--attendance-cyan));
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-brand-pill {
+  border-color: color-mix(in oklab, var(--attendance-cyan) 68%, var(--attendance-indigo));
+  background: linear-gradient(110deg, var(--attendance-cyan), #a5b4fc);
+  box-shadow: 0 7px 18px -8px color-mix(in oklab, var(--attendance-cyan) 45%, transparent);
+  color: var(--attendance-midnight);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-week-pill {
+  border-color: color-mix(in oklab, var(--sa-white) 25%, transparent);
+  background: color-mix(in oklab, var(--sa-white) 10%, transparent);
+  box-shadow: inset 0 1px color-mix(in oklab, var(--sa-white) 16%, transparent);
+  color: var(--sa-white);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-target-mark {
+  background: linear-gradient(145deg, var(--attendance-cyan), #818cf8);
+  box-shadow: 0 3px 10px color-mix(in oklab, var(--attendance-cyan) 36%, transparent);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-target-mark::after {
+  background: var(--attendance-midnight);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-target-mark i {
+  background: var(--sa-white);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-rays i {
+  background: var(--attendance-cyan);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-calendar {
+  border-color: color-mix(in oklab, var(--attendance-cyan) 44%, var(--sa-white));
+  background: linear-gradient(145deg, var(--sa-white), #e0f7ff);
+  box-shadow:
+    0 14px 26px -13px color-mix(in oklab, var(--attendance-midnight) 62%, transparent),
+    inset 0 0 0 5px color-mix(in oklab, var(--attendance-cyan) 20%, var(--sa-white));
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-rings i {
+  border-color: var(--attendance-blue);
+  background: color-mix(in oklab, var(--attendance-cyan) 35%, var(--sa-white));
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i {
+  background: linear-gradient(145deg, #effaff, #bae6fd);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i:nth-child(2),
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i:nth-child(6),
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cells i:nth-child(8) {
+  background: linear-gradient(145deg, var(--attendance-cyan), #818cf8);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-calendar > span {
+  background: linear-gradient(140deg, var(--attendance-blue), #4f46e5);
+  box-shadow: 0 3px 9px color-mix(in oklab, var(--attendance-blue) 38%, transparent);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-cap {
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--attendance-cyan) 38%, transparent), transparent 70%);
+  color: var(--attendance-cyan);
+  filter: drop-shadow(0 7px 5px color-mix(in oklab, var(--attendance-midnight) 65%, transparent));
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-clock {
+  border-color: color-mix(in oklab, var(--attendance-cyan) 48%, var(--sa-white));
+  background: linear-gradient(145deg, var(--sa-white), #e0f7ff);
+  box-shadow: 0 12px 18px -8px color-mix(in oklab, var(--attendance-midnight) 42%, transparent), inset 0 0 0 2px var(--sa-white);
+  color: var(--attendance-blue);
+}
+body .main-area.pastel-theme:not([data-tab="marks"]):not([data-tab="timetable"])[data-tab="attendance"] .attendance-mobile-hero .timetable-art-books {
+  border-color: color-mix(in oklab, var(--sa-white) 55%, transparent);
+  background: linear-gradient(145deg, var(--attendance-cyan), var(--attendance-blue) 58%, #4338ca 60%);
+  box-shadow: 0 10px 15px -8px color-mix(in oklab, var(--attendance-midnight) 62%, transparent), inset 0 2px color-mix(in oklab, var(--sa-white) 40%, transparent);
+  color: var(--sa-white);
+}
+
+.app-shell .marks-page .marks-hero {
+  border-color: color-mix(in oklab, var(--sa-ember) 25%, var(--sa-white));
+  background:
+    radial-gradient(ellipse at 87% 68%, color-mix(in oklab, var(--sa-ember) 22%, transparent), transparent 38%),
+    linear-gradient(118deg, var(--sa-white), color-mix(in oklab, var(--sa-danger) 7%, var(--sa-white)) 54%, color-mix(in oklab, var(--sa-ember) 18%, var(--sa-white)));
+  box-shadow:
+    0 16px 38px -25px color-mix(in oklab, var(--sa-ember) 42%, transparent),
+    inset 0 1px var(--sa-white);
+}
+.app-shell .marks-page .marks-hero::before {
+  background: color-mix(in oklab, var(--sa-danger) 10%, transparent);
+}
+.app-shell .marks-page .marks-hero::after {
+  background: color-mix(in oklab, var(--sa-ember) 12%, transparent);
+}
+.app-shell .marks-page .marks-hero-eyebrow {
+  color: var(--sa-ember-strong);
+}
+.app-shell .marks-page .marks-hero h1 {
+  color: var(--sa-ink);
+}
+.app-shell .marks-page .marks-hero h1 span {
+  color: var(--sa-ember-strong);
+  background: linear-gradient(90deg, var(--sa-danger), var(--sa-ember));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.app-shell .marks-page .marks-hero-copy > p {
+  color: var(--sa-ink-muted);
+}
+.app-shell .marks-page .marks-art-paper {
+  border-color: color-mix(in oklab, var(--sa-ember) 24%, var(--sa-white));
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-ember) 10%, var(--sa-white)));
+  box-shadow:
+    0 14px 26px -13px color-mix(in oklab, var(--sa-ember) 35%, transparent),
+    inset 0 0 0 5px color-mix(in oklab, var(--sa-ember) 15%, var(--sa-white));
+}
+.app-shell .marks-page .marks-art-paper > i {
+  background: linear-gradient(90deg, color-mix(in oklab, var(--sa-ember) 40%, var(--sa-white)), var(--sa-line));
+}
+.app-shell .marks-page .marks-art-grade {
+  border-color: var(--sa-ember);
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-danger) 12%, var(--sa-white)));
+  box-shadow: 0 3px 8px color-mix(in oklab, var(--sa-danger) 28%, transparent);
+  color: var(--sa-danger);
+}
+.app-shell .marks-page .marks-art-paper > b {
+  background: linear-gradient(140deg, var(--sa-danger), var(--sa-ember-strong));
+  box-shadow: 0 3px 9px color-mix(in oklab, var(--sa-danger) 35%, transparent);
+  color: var(--sa-white);
+}
+.app-shell .marks-page .marks-art-cap {
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--sa-ember) 30%, transparent), transparent 70%);
+  color: var(--sa-ember-strong);
+  filter: drop-shadow(0 7px 5px color-mix(in oklab, var(--sa-ember) 25%, transparent));
+}
+.app-shell .marks-page .marks-art-books {
+  border-color: color-mix(in oklab, var(--sa-white) 52%, transparent);
+  background: linear-gradient(145deg, var(--sa-ember), var(--sa-danger) 55%, var(--sa-ember-strong) 57%, var(--sa-ink));
+  box-shadow: 0 10px 15px -8px color-mix(in oklab, var(--sa-danger) 38%, transparent), inset 0 2px color-mix(in oklab, var(--sa-white) 40%, transparent);
+  color: var(--sa-white);
+}
+.app-shell .marks-page .marks-art-rays i {
+  background: var(--sa-ember);
+}
+.app-shell .marks-page .marks-art-spark {
+  color: var(--sa-danger);
+  filter: drop-shadow(0 3px 4px color-mix(in oklab, var(--sa-danger) 35%, transparent));
+}
+
+.app-shell .marks-page .marks-results-panel {
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 34%, var(--sa-line));
+  background:
+    radial-gradient(ellipse at 100% 0, color-mix(in oklab, var(--sa-gold) 17%, transparent), transparent 34%),
+    linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-gold) 7%, var(--sa-white)));
+  box-shadow:
+    0 16px 34px -24px color-mix(in oklab, var(--sa-ember) 28%, transparent),
+    inset 0 1px var(--sa-white);
+}
+.app-shell .marks-page .marks-results-panel .panel-heading::before {
+  border-color: color-mix(in oklab, var(--sa-white) 58%, var(--sa-ember));
+  background:
+    linear-gradient(var(--sa-white), var(--sa-white)) 15px 26px/5px 12px no-repeat,
+    linear-gradient(var(--sa-white), var(--sa-white)) 23px 17px/5px 21px no-repeat,
+    linear-gradient(var(--sa-white), var(--sa-white)) 31px 21px/5px 17px no-repeat,
+    linear-gradient(140deg, var(--sa-ember), var(--sa-gold));
+  box-shadow: 0 7px 14px -8px color-mix(in oklab, var(--sa-ember) 48%, transparent);
+}
+.app-shell .marks-page .marks-results-panel .panel-heading h3 {
+  color: var(--sa-ink);
+}
+.app-shell .marks-page .marks-results-panel .panel-heading p {
+  color: var(--sa-ink-muted);
+}
+.app-shell .marks-page .marks-results-table th {
+  background: #e8f2fd;
+  color: #2b5f91;
+}
+.app-shell .marks-page .marks-results-table td {
+  border-color: #d7e6f5;
+  background: transparent;
+  color: var(--sa-ink);
+  transition: border-color .18s ease;
+}
+.app-shell .marks-page .marks-results-table tbody tr:hover td {
+  border-color: #a9cbea;
+}
+.app-shell .marks-page .marks-results-table .leave-request-cell {
+  background: #e3effb;
+  color: #285d90;
+}
+.app-shell .marks-page .marks-results-table .leave-request-cell strong,
+.app-shell .marks-page .marks-results-table .leave-request-cell span {
+  color: #285d90;
+}
+.app-shell .marks-page .marks-subject-cell > strong {
+  color: var(--sa-ink);
+}
+.app-shell .marks-page .marks-subject-cell > span {
+  color: var(--sa-ink-muted);
+}
+.app-shell .marks-page .marks-score-cell > strong {
+  color: #286aa6;
+}
+.app-shell .marks-page .marks-score-cell > strong > span {
+  color: #71859a;
+}
+.app-shell .marks-page .marks-score-cell .grade-pill {
+  background: #dcecff;
+  color: #2d6397;
+}
+.app-shell .marks-page .marks-results-table table .status-pill.status-published {
+  background: #dcecff;
+  color: #285d90;
+}
+.app-shell .marks-page .marks-results-table table .status-pill.status-published i {
+  background: #4386be;
+}
+
+@keyframes quiz-celebration-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes quiz-celebration-card-in {
+  from { opacity: 0; transform: translateY(14px) scale(.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes quiz-celebration-burst {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--particle-angle)) scaleY(.1); }
+  12% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--particle-angle)) scaleY(1.25); }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y))) rotate(var(--particle-angle)) scaleY(.65);
+  }
+}
+@keyframes quiz-celebration-flash {
+  0% { opacity: 0; transform: scale(.2); }
+  12% { opacity: 1; transform: scale(2.2); }
+  100% { opacity: 0; transform: scale(.3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quiz-celebration-backdrop, .quiz-celebration-card { animation: none; }
+  .quiz-celebration-firework::before {
+    animation: none;
+    opacity: 1;
+    transform: scale(2);
+  }
+  .quiz-celebration-particle {
+    animation: none;
+    opacity: 1;
+    transform: translate(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y))) rotate(var(--particle-angle)) scaleY(.8);
+  }
+}
+
+/* Keep the dashboard cover exactly as before (original fonts). */
+.hub .hub-hero, .hub .hub-hero * { font-family: "Plus Jakarta Sans", sans-serif; }
+.hub .hub-hero h2, .hub .hub-hero h2 * { font-family: "Space Grotesk", sans-serif; letter-spacing: normal; }
+
+/* ---------- Page canvas ---------- */
+.app-shell .main-area {
+  background:
+    radial-gradient(900px 520px at 100% -10%, color-mix(in oklab, var(--sa-ember) 9%, transparent), transparent 60%),
+    radial-gradient(700px 480px at -10% 110%, color-mix(in oklab, var(--sa-teal) 9%, transparent), transparent 60%),
+    var(--sa-paper) !important;
+}
+.app-shell .main-area > .content-area { background: transparent !important; }
+
+
+/* ---------- Top bar ---------- */
+.app-shell .topbar {
+  background: color-mix(in oklab, var(--sa-paper) 78%, transparent) !important;
+  backdrop-filter: saturate(1.4) blur(16px);
+  border-bottom: 1px solid color-mix(in oklab, var(--sa-ink) 8%, transparent) !important;
+}
+.app-shell .breadcrumb strong { color: var(--sa-ember) !important; }
+.app-shell .global-search {
+  background: var(--sa-white) !important;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 10%, transparent) !important;
+  border-radius: 12px; box-shadow: var(--sa-shadow-sm);
+  transition: box-shadow 0.25s var(--sa-ease), border-color 0.25s;
+}
+.app-shell .global-search:focus-within {
+  border-color: color-mix(in oklab, var(--sa-ember) 60%, transparent) !important;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--sa-ember) 14%, transparent);
+}
+.app-shell .avatar { background: var(--sa-grad-ember) !important; color: var(--sa-white) !important; }
+.app-shell .topbar-profile .avatar {
+  background: linear-gradient(120deg, #4968c8, #8069d8) !important;
+}
+.app-shell .topbar-profile:not(:disabled):hover .avatar {
+  box-shadow: 0 0 0 3px color-mix(in oklab, #6680dc 35%, transparent);
+}
+
+/* ---------- Surfaces ---------- */
+.app-shell .panel,
+.app-shell .stat-card {
+  background: var(--sa-white);
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 7%, transparent);
+  border-radius: var(--sa-radius);
+  box-shadow: var(--sa-shadow-sm);
+}
+.app-shell .section-heading h2,
+.app-shell .mobile-page-heading h1 { color: var(--sa-ink); }
+
+/* ---------- Buttons ---------- */
+.app-shell .primary-button,
+.login-form .primary-button {
+  position: relative; overflow: hidden; isolation: isolate;
+  background: var(--sa-grad-ember) !important;
+  border-color: transparent !important; color: var(--sa-white) !important;
+  border-radius: 12px; box-shadow: var(--sa-shadow-ember);
+}
+.app-shell .primary-button:hover, .login-form .primary-button:hover { transform: translateY(-2px); filter: saturate(1.1); }
+.app-shell .secondary-button,
+.app-shell .outline-button {
+  border-radius: 12px;
+  border-color: color-mix(in oklab, var(--sa-ink) 12%, transparent) !important;
+}
+
+/* ---------- Mobile bottom bar ---------- */
+.bottom-nav {
+  background: color-mix(in oklab, var(--sa-night) 92%, transparent) !important;
+  backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid color-mix(in oklab, var(--sa-white) 10%, transparent) !important;
+  box-shadow: 0 18px 40px -14px color-mix(in oklab, var(--sa-night) 90%, transparent) !important;
+}
+.bottom-nav .bn-item { color: color-mix(in oklab, var(--sa-white) 62%, transparent) !important; }
+.bottom-nav .bn-item.active {
+  background: var(--sa-grad-ember) !important;
+  color: var(--sa-white) !important; text-shadow: none !important;
+  box-shadow: var(--sa-shadow-ember), inset 0 1px 0 color-mix(in oklab, var(--sa-white) 30%, transparent) !important;
+}
+
+/* ---------- Sign in ---------- */
+.login-page {
+  background: var(--sa-grad-night) !important;
+}
+.login-page .neural-vignette {
+  background: radial-gradient(ellipse at center, transparent 30%, color-mix(in oklab, var(--sa-night) 85%, transparent) 100%) !important;
+}
+.login-page .login-form {
+  position: relative;
+  background: var(--sa-white) !important;
+  border: 1px solid color-mix(in oklab, var(--sa-white) 60%, transparent) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 40px 80px -30px color-mix(in oklab, var(--sa-night) 100%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--sa-ember) 18%, transparent) !important;
+  backdrop-filter: blur(18px);
+}
+.login-page .login-form::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: conic-gradient(from var(--sa-angle, 0deg), var(--sa-ember), var(--sa-gold), var(--sa-teal), var(--sa-ember));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0.9;
+}
+.login-page .login-heading h2 {
+  color: var(--sa-ink) !important;
+  background: linear-gradient(96deg, var(--sa-ink) 0%, var(--sa-ember) 52%, var(--sa-teal) 82%, var(--sa-ink) 100%) !important;
+  background-size: 240% 100% !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: clamp(26px, 6vw, 32px);
+  font-weight: 750;
+  animation: textFlow 7s ease-in-out infinite;
+}
+.login-page .login-heading h2::after {
+  display: block;
+  width: 52px;
+  height: 3px;
+  margin-top: 9px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sa-ember), var(--sa-gold), var(--sa-teal));
+  content: "";
+}
+.login-page .login-heading p {
+  padding-left: 10px;
+  border-left: 2px solid transparent;
+  border-image: linear-gradient(180deg, var(--sa-ember), var(--sa-teal)) 1;
+  color: color-mix(in oklab, var(--sa-ink-muted-strong) 84%, var(--sa-teal)) !important;
+  line-height: 1.7;
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-page .login-heading h2 {
+    animation: none;
+  }
+}
+.login-page .field-label { color: var(--sa-ink) !important; font-weight: 600; }
+.login-page .input-wrap {
+  background: var(--sa-paper) !important;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 10%, transparent) !important;
+  border-radius: 12px !important;
+  transition: border-color 0.25s, box-shadow 0.25s var(--sa-ease), background-color 0.25s;
+}
+.login-page .input-wrap:focus-within {
+  border-color: var(--sa-ember) !important;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--sa-ember) 15%, transparent) !important;
+}
+.login-page .input-wrap input:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+.login-page .link-button {
+  color: var(--sa-ember) !important;
+}
+.login-page .login-cta-dock {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 68px;
+  margin-top: 5px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-white) 78%, transparent);
+  box-shadow: none;
+}
+.login-page .login-cta-dock::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 135%, color-mix(in oklab, var(--sa-ember) 18%, transparent), transparent 70%);
+  content: "";
+  pointer-events: none;
+}
+.login-page .login-cta-dock .login-submit {
+  position: relative;
+  z-index: 1;
+  width: min(160px, 54%);
+  min-height: 40px;
+  height: 40px;
+  margin: 0;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  transition: background 240ms, box-shadow 240ms;
+}
+.login-page .login-cta-dock .login-submit,
+.login-page .login-cta-dock .login-submit:hover,
+.login-page .login-cta-dock .login-submit:active {
+  transform: none !important;
+}
+.login-page .login-cta-dock.is-unlocked {
+  border-color: transparent;
+  box-shadow: 0 0 26px -16px color-mix(in oklab, var(--sa-ember) 60%, transparent);
+}
+.login-page .login-cta-dock.is-unlocked .login-submit {
+  background: var(--sa-grad-ember) !important;
+  color: var(--sa-white) !important;
+  box-shadow: var(--sa-shadow-ember) !important;
+}
+.login-page .login-submit.secondary-button {
+  background: var(--sa-white) !important; color: var(--sa-ink) !important;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 14%, transparent) !important;
+  box-shadow: none !important;
+}
+.login-page .login-version { color: color-mix(in oklab, var(--sa-white) 55%, transparent) !important; }
+.app-shell, .app-shell.pastel-theme { background: var(--sa-paper) !important; }
+
+@media (max-width: 720px) {
+  .login-page .login-main {
+    align-items: center;
+    padding: 24px 18px 58px;
+  }
+  .login-page .login-form {
+    padding: 28px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-page .login-cta-dock .login-submit,
+  .login-page .login-cta-dock .login-submit:hover,
+  .login-page .login-cta-dock .login-submit:active {
+    transition: none !important;
+  }
+}
+
+.class-test-score-history {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  white-space: normal;
+}
+.class-test-score-history .muted-text {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.app-shell .module-session-page .section-heading > .module-back-button {
+  border-color: color-mix(in oklab, var(--sa-gold) 55%, var(--sa-ember)) !important;
+  background: var(--sa-grad-ember) !important;
+  color: var(--sa-white) !important;
+  box-shadow: var(--sa-shadow-ember);
+}
+.app-shell .module-session-page .section-heading > .module-back-button:hover {
+  border-color: var(--sa-ember-strong) !important;
+  background: linear-gradient(120deg, var(--sa-ember-strong), var(--sa-ember)) !important;
+  color: var(--sa-white) !important;
+  box-shadow: var(--sa-shadow-ember);
+}
+
+.bottom-nav .bn-item.active {
+  background: var(--sa-grad-ember) !important;
+  color: var(--sa-white) !important;
+  box-shadow:
+    var(--sa-shadow-ember),
+    inset 0 1px 0 color-mix(in oklab, var(--sa-white) 40%, transparent) !important;
+}
+.bottom-nav .bn-item.active .bn-ico {
+  width: auto;
+  height: 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--sa-white);
+  box-shadow: none;
+}
+.bottom-nav .bn-item.active .bn-label {
+  color: var(--sa-white);
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-shadow: 0 1px color-mix(in oklab, var(--sa-night) 20%, transparent);
+}
+
+.app-shell .timetable-page .timetable-brand-pill {
+  border-color: color-mix(in oklab, var(--sa-white) 58%, var(--sa-danger));
+  background: linear-gradient(110deg, var(--sa-danger), var(--sa-ember-strong));
+  box-shadow: 0 7px 18px -8px color-mix(in oklab, var(--sa-danger) 75%, transparent);
+  color: var(--sa-white);
+}
+.app-shell .timetable-page .calendar-batch-icon {
+  background: radial-gradient(
+    ellipse at 50% 78%,
+    color-mix(in oklab, var(--sa-gold) 58%, transparent),
+    transparent 68%
+  );
+}
+.app-shell .timetable-page .calendar-batch-icon::before {
+  background: linear-gradient(90deg, var(--sa-ember-strong), var(--sa-gold));
+  box-shadow: 0 3px 6px color-mix(in oklab, var(--sa-ember-strong) 55%, transparent);
+}
+.app-shell .timetable-page .calendar-batch-icon::after {
+  background: linear-gradient(90deg, var(--sa-gold), var(--sa-white));
+}
+.app-shell .timetable-page .calendar-batch-icon > svg:first-child {
+  border-color: color-mix(in oklab, var(--sa-white) 65%, var(--sa-ember));
+  background: linear-gradient(145deg, var(--sa-gold), var(--sa-ember));
+  color: var(--sa-night);
+  filter: drop-shadow(0 5px 5px color-mix(in oklab, var(--sa-ember-strong) 60%, transparent));
+}
+.app-shell .timetable-page .calendar-batch-icon > span {
+  background: linear-gradient(145deg, var(--sa-night-2), var(--sa-danger));
+  box-shadow: 0 4px 8px color-mix(in oklab, var(--sa-danger) 60%, transparent);
+}
+
+/* Professional, consistent dashboard data cards. The .hub-hero cover is untouched. */
+.app-shell .hub .hub-schedule,
+.app-shell .hub .hub-class-test-card,
+.app-shell .hub .hub-notifications-card,
+.app-shell .hub .hub-attendance-card {
+  border: 1px solid var(--sa-line) !important;
+  border-radius: 20px;
+  background: var(--sa-white) !important;
+  color: var(--sa-ink) !important;
+  box-shadow: var(--sa-shadow-sm) !important;
+}
+.app-shell .hub .hub-schedule::before,
+.app-shell .hub .hub-class-test-card::before,
+.app-shell .hub .hub-card::before,
+.app-shell .hub .hub-card::after {
+  display: none !important;
+  animation: none !important;
+}
+.app-shell .hub .hub-schedule:hover,
+.app-shell .hub .hub-class-test-card:hover,
+.app-shell .hub .hub-notifications-card:hover,
+.app-shell .hub .hub-attendance-card:hover {
+  border-color: color-mix(in oklab, var(--sa-teal) 35%, var(--sa-line)) !important;
+  box-shadow: var(--sa-shadow-lg) !important;
+  transform: translateY(-2px);
+}
+.app-shell .hub .hub-card-head h3 {
+  color: var(--sa-ink) !important;
+  font-size: 15px;
+}
+.app-shell .hub .hub-card-head p {
+  color: var(--sa-ink-muted) !important;
+}
+.app-shell .hub .hub-card .hub-ico {
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 18%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-teal) 12%, var(--sa-white)) !important;
+  box-shadow: none !important;
+  color: var(--sa-teal) !important;
+}
+.app-shell .hub .hub-chip,
+.app-shell .hub .hub-chip.dark,
+.app-shell .hub .hub-card [class*="chip"],
+.app-shell .hub .hub-card [class*="pill"],
+.app-shell .hub .hub-card [class*="badge"] {
+  border: 1px solid var(--sa-line) !important;
+  background: var(--sa-paper) !important;
+  color: var(--sa-ink-muted) !important;
+}
+
+.app-shell .hub .hub-schedule {
+  gap: 12px;
+  padding: 18px;
+}
+.app-shell .hub .hub-sched-head strong {
+  color: var(--sa-ink);
+  font-size: 15px;
+}
+.app-shell .hub .hub-sched-head button {
+  border-color: var(--sa-line);
+  background: var(--sa-paper);
+  color: var(--sa-ink-muted);
+}
+.app-shell .hub .hub-sched-head button:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--sa-teal) 45%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-teal) 10%, var(--sa-white));
+  color: var(--sa-ink);
+}
+.app-shell .hub .hub-sched-times {
+  border-bottom-color: var(--sa-line);
+  color: var(--sa-ink-muted);
+}
+.app-shell .hub .hub-event,
+.app-shell .hub .hub-event.hot,
+.app-shell .hub .hub-event.light,
+.app-shell .hub .hub-event.mint {
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--sa-line);
+  border-left: 3px solid var(--sa-teal);
+  border-radius: 12px;
+  background: var(--sa-paper) !important;
+  color: var(--sa-ink) !important;
+  box-shadow: none;
+}
+.app-shell .hub .hub-event.light {
+  border-left-color: var(--sa-gold);
+}
+.app-shell .hub .hub-event.mint {
+  border-left-color: var(--sa-success);
+}
+.app-shell .hub .hub-event:hover {
+  border-color: color-mix(in oklab, var(--sa-teal) 34%, var(--sa-line));
+  box-shadow: var(--sa-shadow-sm);
+  transform: translateY(-1px);
+}
+.app-shell .hub .hub-event span,
+.app-shell .hub .hub-muted {
+  color: var(--sa-ink-muted);
+}
+
+.app-shell .hub .hub-class-test-card {
+  gap: 8px;
+  padding: 17px;
+  border-left: 4px solid var(--sa-ember) !important;
+}
+.app-shell .hub .hub-class-test-head,
+.app-shell .hub .hub-class-test-module {
+  color: var(--sa-ink-muted);
+}
+.app-shell .hub .hub-class-test-icon {
+  border-color: color-mix(in oklab, var(--sa-ember) 25%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-ember) 10%, var(--sa-white));
+  color: var(--sa-ember-strong);
+}
+.app-shell .hub .hub-class-test-title {
+  color: var(--sa-ink);
+}
+.app-shell .hub .hub-class-test-caption {
+  color: var(--sa-ink-muted);
+}
+.app-shell .hub .hub-class-test-action {
+  margin-top: 5px;
+  border-radius: 11px;
+  background: var(--sa-grad-ember) !important;
+  color: var(--sa-white) !important;
+  box-shadow: var(--sa-shadow-ember);
+}
+.app-shell .hub .hub-class-test-action:hover {
+  filter: saturate(1.08);
+  transform: translateY(-1px);
+}
+.app-shell .hub .hub-class-test-action:focus-visible,
+.app-shell .hub .hub-sched-head button:focus-visible,
+.app-shell .hub .hub-event:focus-visible,
+.app-shell .hub .hub-notification:focus-visible,
+.app-shell .hub .hub-notifications-link:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 3px;
+}
+
+.app-shell .hub .hub-notifications-card {
+  padding: 18px !important;
+}
+.app-shell .hub .hub-notification,
+.app-shell .hub .hub-notification.unread,
+.app-shell .hub .hub-notification.class-test-notification {
+  margin: 0;
+  padding: 12px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--sa-line);
+  border-radius: 10px;
+  background: transparent !important;
+  color: var(--sa-ink);
+  box-shadow: none;
+  transform: none;
+}
+.app-shell .hub .hub-notification.unread {
+  background: color-mix(in oklab, var(--sa-teal) 6%, var(--sa-white)) !important;
+}
+.app-shell .hub .hub-notification.class-test-notification {
+  margin: 5px 0;
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 55%, var(--sa-line));
+  border-left: 3px solid var(--sa-gold);
+  background: color-mix(in oklab, var(--sa-gold) 9%, var(--sa-white)) !important;
+}
+.app-shell .hub .hub-notification-copy strong {
+  color: var(--sa-ink) !important;
+}
+.app-shell .hub .hub-notification-copy > span,
+.app-shell .hub .hub-notification time {
+  color: var(--sa-ink-muted) !important;
+}
+.app-shell .hub .hub-notification-dot {
+  background: transparent;
+}
+.app-shell .hub .hub-notification.unread .hub-notification-dot {
+  background: var(--sa-teal);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--sa-teal) 13%, transparent);
+}
+.app-shell .hub .hub-notification.class-test-notification .hub-notification-dot {
+  background: var(--sa-ember);
+}
+.app-shell .hub .hub-notifications-link,
+.app-shell .hub .hub-attendance-link {
+  color: var(--sa-teal);
+}
+.app-shell .hub .hub-notifications-link:hover,
+.app-shell .hub .hub-attendance-link:hover {
+  color: var(--sa-ink);
+}
+
+.app-shell .hub .hub-attendance-card .hub-big {
+  color: var(--sa-ink);
+}
+.app-shell .hub .hub-attendance-card .hub-big small {
+  color: var(--sa-success) !important;
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-summary > span,
+.app-shell .hub .hub-attendance-card .hub-attendance-detail,
+.app-shell .hub .hub-attendance-card .hub-attendance-axis,
+.app-shell .hub .hub-attendance-card .hub-attendance-mobile-label,
+.app-shell .hub .hub-attendance-card .hub-attendance-session-legend {
+  color: var(--sa-ink-muted) !important;
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-line {
+  stroke: var(--sa-teal) !important;
+  filter: none !important;
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-gridline {
+  stroke: color-mix(in oklab, var(--sa-ink) 10%, transparent) !important;
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-point {
+  fill: var(--sa-white) !important;
+  stroke: var(--sa-success);
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-point.absent {
+  stroke: var(--sa-danger);
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-point.selected {
+  fill: var(--sa-teal) !important;
+  stroke: var(--sa-white);
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-session.present,
+.app-shell .hub .hub-attendance-card .hub-attendance-session-legend i.present {
+  background: var(--sa-success);
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-session.absent,
+.app-shell .hub .hub-attendance-card .hub-attendance-session-legend i.absent {
+  background: var(--sa-danger);
+}
+.app-shell .hub .hub-attendance-card .hub-attendance-link {
+  color: var(--sa-teal);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .hub .hub-schedule,
+  .app-shell .hub .hub-class-test-card,
+  .app-shell .hub .hub-notification,
+  .app-shell .hub .hub-event {
+    transition: none;
+  }
+}
+
+/* Add clear accents to dashboard controls and key metadata. */
+.app-shell .hub .hub-sched-head button.hub-chip.dark {
+  border-color: color-mix(in oklab, var(--sa-gold) 62%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-gold) 34%, var(--sa-white));
+  color: var(--sa-ink);
+  font-weight: 800;
+}
+.app-shell .hub .hub-sched-head button:not(.hub-chip) {
+  border-color: color-mix(in oklab, var(--sa-teal) 35%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-teal) 12%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 56%, var(--sa-ink));
+}
+.app-shell .hub .hub-sched-head button:not(.hub-chip):disabled {
+  opacity: 0.48;
+}
+.app-shell .hub .hub-sched-head button:not(.hub-chip):hover:not(:disabled) {
+  border-color: var(--sa-teal);
+  background: color-mix(in oklab, var(--sa-teal) 22%, var(--sa-white));
+  color: var(--sa-ink);
+}
+.app-shell .hub .hub-sched-times span {
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 24%, var(--sa-line));
+  border-radius: 7px;
+  padding: 2px 6px;
+  background: color-mix(in oklab, var(--sa-teal) 9%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 48%, var(--sa-ink));
+  font-weight: 700;
+}
+.app-shell .hub .hub-class-test-head {
+  color: var(--sa-ember-strong);
+}
+.app-shell .hub .hub-class-test-icon {
+  border-color: color-mix(in oklab, var(--sa-ember) 45%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-gold) 28%, var(--sa-white));
+  color: var(--sa-ember-strong);
+  box-shadow: 0 3px 10px -5px var(--sa-ember);
+}
+.app-shell .hub .hub-class-test-module {
+  align-self: flex-start;
+  padding: 4px 8px;
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 55%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-gold) 20%, var(--sa-white));
+  color: var(--sa-ember-strong);
+}
+.app-shell .hub .hub-notifications-card .hub-card-head > .hub-chip {
+  border-color: color-mix(in oklab, var(--sa-gold) 55%, var(--sa-line)) !important;
+  background: color-mix(in oklab, var(--sa-gold) 24%, var(--sa-white)) !important;
+  color: var(--sa-ember-strong) !important;
+  font-weight: 800;
+}
+.app-shell .hub .hub-notifications-card .hub-ico {
+  border-color: color-mix(in oklab, var(--sa-gold) 42%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-gold) 22%, var(--sa-white)) !important;
+  color: var(--sa-ember-strong) !important;
+}
+
+.app-shell .fees-page {
+  gap: 20px;
+}
+.app-shell .fees-page > .section-heading {
+  display: flex !important;
+  margin-bottom: 0;
+}
+.app-shell .fees-page .section-heading h2 {
+  color: var(--sa-ink);
+}
+.app-shell .fees-page .section-heading p {
+  color: var(--sa-ink-muted);
+}
+.app-shell .fees-page .fee-summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.app-shell .fees-page .fee-summary-item {
+  min-height: 100px;
+  padding: 18px;
+  border: 1px solid var(--sa-line);
+  border-top: 3px solid var(--fee-stat-accent, var(--sa-ember));
+  border-radius: 16px;
+  background: var(--sa-white);
+  box-shadow: var(--sa-shadow-sm);
+}
+.app-shell .fees-page .fee-summary-item:nth-child(1) { --fee-stat-accent: var(--sa-gold); }
+.app-shell .fees-page .fee-summary-item:nth-child(2) { --fee-stat-accent: var(--sa-success); }
+.app-shell .fees-page .fee-summary-item:nth-child(3) { --fee-stat-accent: var(--sa-navy-soft); }
+.app-shell .fees-page .fee-summary-item:nth-child(4) { --fee-stat-accent: var(--sa-teal); }
+.app-shell .fees-page .fee-summary-icon {
+  width: 42px;
+  height: 42px;
+  border: 1px solid color-mix(in oklab, var(--fee-stat-accent) 24%, var(--sa-line));
+  border-radius: 13px;
+  background: color-mix(in oklab, var(--fee-stat-accent) 11%, var(--sa-white));
+  color: var(--fee-stat-accent);
+}
+.app-shell .fees-page .fee-summary-item strong {
+  color: var(--sa-ink);
+  font-family: var(--sa-font-display);
+  font-size: clamp(17px, 2vw, 21px);
+}
+.app-shell .fees-page .fee-summary-item > div > span {
+  color: var(--sa-ink-muted);
+  font-size: 12px;
+}
+.app-shell .fees-page .fee-challans {
+  padding: 20px;
+  border: 1px solid var(--sa-line);
+  border-radius: 20px;
+  background: color-mix(in oklab, var(--sa-white) 88%, var(--sa-paper));
+  box-shadow: var(--sa-shadow-sm);
+}
+.app-shell .fees-page .fee-list-heading {
+  padding: 0 0 16px;
+  border-bottom-color: var(--sa-line);
+}
+.app-shell .fees-page .fee-list-heading h3 {
+  color: var(--sa-ink);
+  font-size: 18px;
+}
+.app-shell .fees-page .fee-list-heading h3 svg {
+  color: var(--sa-ember);
+}
+.app-shell .fees-page .fee-card-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 16px;
+}
+.app-shell .fees-page .fee-challan {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--sa-line);
+  border-top: 3px solid var(--fee-card-accent, var(--sa-teal));
+  border-radius: 16px;
+  background: var(--sa-white);
+  box-shadow: 0 5px 16px -12px color-mix(in oklab, var(--sa-ink) 32%, transparent);
+  color: var(--sa-ink);
+}
+.app-shell .fees-page .fee-challan-paid { --fee-card-accent: var(--sa-success); }
+.app-shell .fees-page .fee-challan-pending { --fee-card-accent: var(--sa-gold); }
+.app-shell .fees-page .fee-challan-not-issued { --fee-card-accent: var(--sa-ink-muted); }
+.app-shell .fees-page .fee-challan:hover {
+  border-color: color-mix(in oklab, var(--fee-card-accent) 34%, var(--sa-line));
+  box-shadow: var(--sa-shadow-sm);
+  transform: translateY(-2px);
+}
+.app-shell .fees-page .fee-challan-header {
+  min-width: 0;
+}
+.app-shell .fees-page .fee-challan-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.app-shell .fees-page .fee-challan-id {
+  padding: 4px 8px;
+  border: 1px solid var(--sa-line);
+  border-radius: 999px;
+  background: var(--sa-paper);
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  letter-spacing: .06em;
+}
+.app-shell .fees-page .fee-challan h4 {
+  margin: 11px 0 10px;
+  color: var(--sa-ink);
+  font-size: 16px;
+  line-height: 1.4;
+}
+.app-shell .fees-page .fee-tags {
+  gap: 7px;
+}
+.app-shell .fees-page .fee-tags > span {
+  padding: 5px 9px;
+  border: 1px solid color-mix(in oklab, var(--fee-card-accent) 20%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--fee-card-accent) 8%, var(--sa-white));
+  color: color-mix(in oklab, var(--fee-card-accent) 75%, var(--sa-ink));
+  font-size: 10px;
+}
+.app-shell .fees-page .fee-details {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 16px;
+}
+.app-shell .fees-page .fee-details > div {
+  padding: 10px 11px;
+  border: 1px solid var(--sa-line);
+  border-radius: 12px;
+  background: var(--sa-paper);
+}
+.app-shell .fees-page .fee-details dt {
+  margin-bottom: 5px;
+  color: var(--sa-ink-muted);
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+.app-shell .fees-page .fee-details dd {
+  gap: 5px;
+  color: var(--sa-ink);
+  font-size: 11px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.app-shell .fees-page .fee-details dd svg {
+  flex: 0 0 auto;
+  color: var(--fee-card-accent);
+}
+.app-shell .fees-page .fee-details dd.fee-date-highlight {
+  width: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--sa-success);
+}
+.app-shell .fees-page .fee-details dd.fee-amount {
+  font-size: 16px;
+  font-weight: 800;
+}
+.app-shell .fees-page .fee-transaction {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.app-shell .fees-page .fee-transaction > span {
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--sa-line);
+  border-radius: 9px;
+  background: var(--sa-paper);
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+.app-shell .fees-page .fee-transaction svg {
+  flex: 0 0 auto;
+  color: var(--sa-teal);
+}
+.app-shell .fees-page .fee-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid var(--sa-line);
+}
+.app-shell .fees-page .fee-card-actions .outline-button {
+  min-height: 36px;
+  border-color: color-mix(in oklab, var(--sa-teal) 35%, var(--sa-line));
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--sa-teal) 8%, var(--sa-white));
+  color: var(--sa-ink);
+}
+.app-shell .fees-page .fee-awaiting {
+  color: var(--sa-ink-muted);
+  font-size: 11px;
+}
+.app-shell .fees-page .status-pill {
+  flex: 0 0 auto;
+  min-height: 25px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+}
+.app-shell .fees-page .status-pill i {
+  width: 6px;
+  height: 6px;
+}
+
+@media (max-width: 1050px) {
+  .app-shell .fees-page .fee-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .app-shell .fees-page {
+    gap: 16px;
+  }
+  .app-shell .fees-page > .section-heading {
+    display: flex !important;
+  }
+  .app-shell .fees-page .fee-summary {
+    gap: 10px;
+  }
+  .app-shell .fees-page .fee-summary-item {
+    min-height: 88px;
+    gap: 10px;
+    padding: 12px;
+  }
+  .app-shell .fees-page .fee-summary-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .app-shell .fees-page .fee-challans {
+    padding: 15px;
+    border-radius: 17px;
+  }
+  .app-shell .fees-page .fee-list-heading {
+    align-items: flex-start;
+  }
+  .app-shell .fees-page .fee-list-heading h3 {
+    font-size: 16px;
+  }
+  .app-shell .fees-page .fee-list-heading .select-control {
+    width: auto;
+    max-width: 145px;
+    min-height: 38px;
+  }
+  .app-shell .fees-page .fee-card-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 11px;
+  }
+  .app-shell .fees-page .fee-challan {
+    padding: 15px;
+    border-radius: 14px;
+  }
+  .app-shell .fees-page .fee-details {
+    gap: 8px;
+  }
+  .app-shell .fees-page .fee-details > div {
+    padding: 9px;
+  }
+}
+
+.app-shell .materials-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--sa-line);
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--sa-white) 94%, var(--sa-paper));
+}
+.app-shell .materials-filters .materials-search input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px 11px;
+  border: 1px solid var(--sa-line);
+  border-radius: 10px;
+  background: var(--sa-white);
+  color: var(--sa-ink);
+  font-size: 12px;
+}
+.app-shell .materials-filters .materials-search input:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 2px;
+}
+.app-shell .materials-results-count {
+  margin: -5px 1px 0;
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+}
+.app-shell .materials-filters label {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+.app-shell .materials-filters label > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+.app-shell .materials-filters label > span svg {
+  color: var(--sa-teal);
+}
+.app-shell .materials-filters .select-control {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+}
+.app-shell .materials-recent {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 2px 1px;
+}
+.app-shell .materials-recent > span {
+  margin-right: 2px;
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+.app-shell .materials-recent button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 6px 9px;
+  border: 1px solid var(--sa-line);
+  border-radius: 999px;
+  background: var(--sa-white);
+  color: var(--sa-ink);
+  font-size: 10px;
+  font-weight: 700;
+}
+.app-shell .materials-recent button:hover {
+  border-color: color-mix(in oklab, var(--sa-teal) 45%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-teal) 7%, var(--sa-white));
+}
+.app-shell .materials-recent button svg {
+  flex: 0 0 auto;
+  color: var(--sa-teal);
+}
+.app-shell .materials-page .mat-extra .course-tag {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.app-shell .materials-page .mat-extra .course-tag small {
+  color: var(--sa-ink-muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+.app-shell .materials-page .mat-note-unavailable {
+  flex: 0 0 auto;
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.calendar-view-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--sa-line);
+  border-radius: 999px;
+  background: var(--sa-white);
+}
+.calendar-view-switch button {
+  display: grid;
+  width: 34px;
+  height: 32px;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--sa-ink-muted);
+}
+.calendar-view-switch button.active {
+  background: var(--sa-ink);
+  color: var(--sa-white);
+}
+.calendar-view-switch button:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 2px;
+}
+.calendar-week-grid.list-view {
+  grid-template-columns: minmax(0, 1fr);
+}
+.calendar-week-grid.list-view .calendar-day-column {
+  display: grid;
+  grid-template-columns: minmax(100px, .55fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 10px 16px;
+  min-height: 0;
+}
+.calendar-week-grid.list-view .calendar-day-column .day-header,
+.calendar-week-grid.list-view .calendar-day-column .calendar-today-label {
+  grid-column: 1;
+}
+.calendar-week-grid.list-view .calendar-day-column .day-classes {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  align-items: start;
+  gap: 9px;
+}
+.calendar-week-grid.list-view .calendar-day-column .calendar-empty-day {
+  min-height: 54px;
+  grid-column: 1 / -1;
+  align-items: flex-start;
+  text-align: left;
+}
+
+@media (max-width: 720px) {
+  .app-shell .materials-filters {
+  grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+    padding: 11px;
+  }
+  .app-shell .materials-filters .materials-search {
+  grid-column: auto;
+  }
+  .app-shell .materials-filters .select-control {
+    font-size: 11px;
+  }
+  .calendar-view-switch button {
+    width: 31px;
+    height: 30px;
+  }
+  .calendar-week-grid.list-view .calendar-day-column {
+    grid-template-columns: minmax(78px, .45fr) minmax(0, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+  .calendar-week-grid.list-view .calendar-day-column .day-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 0;
+  }
+  .calendar-week-grid.list-view .calendar-day-column .day-header strong {
+    width: 30px;
+    height: 30px;
+  }
+  .calendar-week-grid.list-view .calendar-day-column .day-classes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 440px) {
+  .app-shell .materials-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .materials-filters .materials-search {
+    grid-column: auto;
+  }
+  .week-calendar-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .calendar-week-grid.list-view .calendar-day-column {
+    grid-template-columns: 66px minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .fees-page .fee-challan {
+    transition: none;
+  }
+}
+
+.app-shell .materials-page .mat-current-module-tag {
+  align-self: flex-start;
+  margin-top: 5px;
+  padding: 3px 7px;
+  border: 1px solid color-mix(in oklab, var(--sa-success) 25%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-success) 9%, var(--sa-white));
+  color: var(--sa-success);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  line-height: 1.2;
+}
+.app-shell .materials-page .mat-lessons li {
+  min-width: 0;
+  min-height: 66px;
+  gap: 10px;
+  padding: 9px 10px;
+}
+.app-shell .materials-page .mat-lesson strong {
+  color: var(--sa-ink);
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.app-shell .materials-page .mat-lesson .muted-text {
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+}
+@media (max-width: 600px) {
+  .app-shell .materials-page .mat-lessons li {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+  }
+  .app-shell .materials-page .mat-lesson {
+    flex: 1 1 auto;
+  }
+  .app-shell .materials-page .mat-lesson strong {
+    font-size: 12px;
+  }
+  .app-shell .materials-page .mat-lessons li .small-download {
+    flex: 0 0 auto;
+    min-height: 31px;
+    margin-left: 0;
+    padding: 6px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+}
+
+.main-area[data-tab="materials"] > .content-area {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--sa-ember) 5%, var(--sa-paper)),
+    var(--sa-white) 48%,
+    color-mix(in oklab, var(--sa-gold) 8%, var(--sa-paper))
+  );
+}
+.main-area[data-tab="materials"] .materials-hero {
+  border-color: color-mix(in oklab, var(--sa-ember) 45%, var(--sa-white));
+  background:
+    radial-gradient(ellipse at 84% 36%, color-mix(in oklab, var(--sa-gold) 52%, transparent), transparent 35%),
+    linear-gradient(
+      118deg,
+      color-mix(in oklab, var(--sa-ember-strong) 78%, var(--sa-ink)) 0%,
+      var(--sa-ember-strong) 56%,
+      color-mix(in oklab, var(--sa-ember) 62%, var(--sa-ink)) 100%
+    );
+  box-shadow: 0 16px 38px -25px color-mix(in oklab, var(--sa-ember-strong) 62%, transparent), inset 0 1px 0 color-mix(in oklab, var(--sa-white) 38%, transparent);
+}
+.main-area[data-tab="materials"] .materials-hero::before {
+  background: color-mix(in oklab, var(--sa-gold) 20%, transparent);
+}
+.main-area[data-tab="materials"] .materials-hero::after {
+  background: color-mix(in oklab, var(--sa-white) 12%, transparent);
+}
+.main-area[data-tab="materials"] .materials-hero .timetable-brand-pill {
+  background: linear-gradient(110deg, var(--sa-ember), var(--sa-ember-strong));
+  box-shadow: 0 6px 15px -7px color-mix(in oklab, var(--sa-ink) 62%, transparent);
+}
+.main-area[data-tab="materials"] .materials-hero h1 span {
+  color: var(--sa-gold);
+  background: linear-gradient(90deg, var(--sa-gold), var(--sa-white));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.main-area[data-tab="materials"] .materials-hero .timetable-hero-copy > p {
+  color: color-mix(in oklab, var(--sa-white) 88%, var(--sa-gold));
+}
+.main-area[data-tab="materials"] .materials-hero .timetable-week-pill {
+  color: var(--sa-white);
+}
+.main-area[data-tab="materials"] .materials-hero .timetable-target-mark {
+  background: linear-gradient(140deg, var(--sa-gold), var(--sa-ember));
+  box-shadow: 0 3px 8px color-mix(in oklab, var(--sa-ink) 40%, transparent);
+  color: var(--sa-ink);
+}
+.main-area[data-tab="materials"] .materials-art-rays i {
+  background: var(--sa-gold);
+}
+.main-area[data-tab="materials"] .materials-art-sparkle {
+  color: var(--sa-gold);
+}
+.main-area[data-tab="materials"] .materials-art-page {
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-gold) 14%, var(--sa-paper)));
+  box-shadow: 0 14px 26px -13px color-mix(in oklab, var(--sa-ember-strong) 48%, transparent), inset 0 0 0 5px color-mix(in oklab, var(--sa-gold) 18%, var(--sa-white));
+}
+.main-area[data-tab="materials"] .materials-art-page-back i,
+.main-area[data-tab="materials"] .materials-art-page-front > span i {
+  background: linear-gradient(90deg, color-mix(in oklab, var(--sa-ember) 38%, var(--sa-paper)), color-mix(in oklab, var(--sa-gold) 26%, var(--sa-paper)));
+}
+.main-area[data-tab="materials"] .materials-art-page-front {
+  color: var(--sa-ember-strong);
+}
+.main-area[data-tab="materials"] .materials-art-book,
+.main-area[data-tab="materials"] .materials-art-check {
+  background: linear-gradient(140deg, var(--sa-gold), var(--sa-ember-strong));
+  box-shadow: 0 8px 15px -8px color-mix(in oklab, var(--sa-ember-strong) 60%, transparent), inset 0 2px color-mix(in oklab, var(--sa-white) 56%, transparent);
+  color: var(--sa-white);
+}
+
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: color-mix(in oklab, var(--sa-gold) 42%, var(--sa-night));
+  background:
+    radial-gradient(ellipse at 94% 10%, color-mix(in oklab, var(--sa-gold) 22%, transparent), transparent 34%),
+    radial-gradient(ellipse at 4% 100%, color-mix(in oklab, var(--sa-ember) 12%, transparent), transparent 40%),
+    linear-gradient(128deg, #172033, #24334b 58%, #35425a);
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, var(--sa-night) 72%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 14%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading::before {
+  position: absolute;
+  inset: 16px auto 16px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--sa-gold), var(--sa-ember));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading::after {
+  position: absolute;
+  top: -84px;
+  right: -28px;
+  z-index: -1;
+  width: 168px;
+  height: 168px;
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 32%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 14px color-mix(in oklab, var(--sa-gold) 5%, transparent),
+    0 0 0 30px color-mix(in oklab, var(--sa-gold) 4%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading .eyebrow {
+  color: var(--sa-gold);
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading h2 {
+  color: var(--sa-white);
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading p {
+  color: color-mix(in oklab, var(--sa-white) 78%, var(--sa-gold));
+}
+
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading {
+  min-height: 136px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: color-mix(in oklab, #a5e8ff 48%, #12488f);
+  background:
+    radial-gradient(ellipse at 92% 8%, color-mix(in oklab, #a5e8ff 28%, transparent), transparent 34%),
+    linear-gradient(125deg, #0d3476, #1456ad 58%, #1978c5);
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, #0d3476 68%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 22%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading::before {
+  position: absolute;
+  inset: 14px auto 14px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--sa-white), #8ee6ff);
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading::after {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  z-index: -1;
+  width: 104px;
+  height: 80px;
+  transform: translateY(-50%) rotate(5deg);
+  border: 1px solid color-mix(in oklab, var(--sa-white) 54%, transparent);
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 79% 25%, #b7eeff 0 5px, transparent 5.8px),
+    linear-gradient(color-mix(in oklab, var(--sa-white) 74%, transparent) 0 0) 14px 23px / 42px 3px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 38%, transparent) 0 0) 14px 37px / 72px 2px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 32%, transparent) 0 0) 14px 47px / 61px 2px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 26%, transparent) 0 0) 14px 57px / 47px 2px no-repeat,
+    linear-gradient(145deg, color-mix(in oklab, var(--sa-white) 20%, transparent), color-mix(in oklab, var(--sa-white) 7%, transparent));
+  box-shadow:
+    0 14px 28px -16px color-mix(in oklab, #071c43 72%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 28%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading > div:first-child {
+  width: calc(100% - 128px);
+  min-width: 0;
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading .eyebrow {
+  color: #b7eeff;
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading h2 {
+  color: var(--sa-white);
+}
+.app-shell .main-area.pastel-theme[data-tab="exams"] .page-stack > .section-heading p {
+  color: color-mix(in oklab, var(--sa-white) 82%, #a5e8ff);
+}
+
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading {
+  min-height: 136px;
+  padding: 18px 22px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 46%, #172338);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 92% 12%, color-mix(in oklab, var(--sa-gold) 27%, transparent), transparent 35%),
+    linear-gradient(128deg, #172338, #263a56 60%, #394c66);
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, #111b2c 72%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 18%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading::before {
+  position: absolute;
+  inset: 16px auto 16px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--sa-gold), #fff0b0);
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading::after {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  z-index: -1;
+  width: 104px;
+  height: 80px;
+  transform: translateY(-50%) rotate(-4deg);
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 62%, transparent);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 78% 25%, #ffe08a 0 7px, transparent 7.8px),
+    linear-gradient(color-mix(in oklab, var(--sa-gold) 72%, transparent) 0 0) 14px 23px / 42px 3px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 46%, transparent) 0 0) 14px 38px / 70px 2px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 38%, transparent) 0 0) 14px 48px / 58px 2px no-repeat,
+    linear-gradient(145deg, color-mix(in oklab, var(--sa-white) 19%, transparent), color-mix(in oklab, var(--sa-white) 6%, transparent));
+  box-shadow:
+    0 14px 28px -16px color-mix(in oklab, #111b2c 74%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 24%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading > .eyebrow {
+  color: #ffe08a;
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading h2 {
+  max-width: calc(100% - 128px);
+  color: var(--sa-white);
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .certificate-request-heading p {
+  max-width: calc(100% - 128px);
+  color: color-mix(in oklab, var(--sa-white) 80%, var(--sa-gold));
+}
+.app-shell .main-area.pastel-theme[data-tab="certrequest"] .cert-request-lock-hint {
+  margin-top: 6px;
+  color: var(--sa-ember-accessible);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading {
+  min-height: 136px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: color-mix(in oklab, var(--sa-gold) 34%, var(--sa-night));
+  background:
+    radial-gradient(ellipse at 92% 10%, color-mix(in oklab, var(--sa-teal) 23%, transparent), transparent 36%),
+    linear-gradient(128deg, var(--sa-night), var(--sa-night-2) 62%, color-mix(in oklab, var(--sa-navy-soft) 42%, var(--sa-night)));
+  box-shadow:
+    0 18px 40px -25px color-mix(in oklab, var(--sa-night) 65%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 16%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading::before {
+  position: absolute;
+  inset: 14px auto 14px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--sa-gold), var(--sa-teal));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading::after {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  z-index: -1;
+  width: 84px;
+  height: 74px;
+  transform: translateY(-50%);
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 42%, transparent);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 28% 12px, var(--sa-white) 0 2px, transparent 2.7px),
+    radial-gradient(circle at 72% 12px, var(--sa-white) 0 2px, transparent 2.7px),
+    linear-gradient(var(--sa-gold) 0 0) 0 0 / 100% 24px no-repeat,
+    linear-gradient(var(--sa-gold) 0 0) 14px 36px / 12px 12px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 24%, transparent) 0 0) 36px 36px / 12px 12px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 24%, transparent) 0 0) 58px 36px / 12px 12px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-white) 24%, transparent) 0 0) 14px 54px / 12px 8px no-repeat,
+    linear-gradient(145deg, color-mix(in oklab, var(--sa-white) 12%, var(--sa-night-2)), color-mix(in oklab, var(--sa-white) 5%, var(--sa-night)));
+  box-shadow:
+    0 14px 28px -17px color-mix(in oklab, var(--sa-night) 72%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 18%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading > div:first-child {
+  width: calc(100% - 112px);
+  min-width: 0;
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading .eyebrow {
+  color: var(--sa-gold);
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading h2 {
+  color: var(--sa-white);
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .section-heading p {
+  color: color-mix(in oklab, var(--sa-white) 78%, var(--sa-teal));
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] > .content-area {
+  background:
+    radial-gradient(ellipse at 98% 4%, color-mix(in oklab, var(--sa-teal) 9%, transparent), transparent 34%),
+    radial-gradient(ellipse at 2% 46%, color-mix(in oklab, var(--sa-gold) 7%, transparent), transparent 38%),
+    linear-gradient(180deg, var(--sa-paper), color-mix(in oklab, var(--sa-teal) 3%, var(--sa-paper))) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .page-stack > .panel {
+  border-color: color-mix(in oklab, var(--sa-teal) 17%, var(--sa-line)) !important;
+  background: color-mix(in oklab, var(--sa-white) 96%, var(--sa-teal)) !important;
+  box-shadow: 0 14px 34px -24px color-mix(in oklab, var(--sa-ink) 26%, transparent) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="leave"] .leave-simple-form input,
+.app-shell .main-area.pastel-theme[data-tab="leave"] .leave-simple-form textarea {
+  border-color: color-mix(in oklab, var(--sa-teal) 22%, var(--sa-line));
+  background: var(--sa-white);
+}
+
+.app-shell .main-area.pastel-theme[data-tab="fees"] {
+  --page-heading-start: #fff8e9;
+  --page-heading-end: #f2e3bf;
+  --page-heading-glow: #f1cd73;
+  --page-heading-accent: #b38222;
+  --page-heading-highlight: #fff0b0;
+  --page-heading-title: #3d321a;
+  --page-heading-copy: #6d5e40;
+  --page-heading-eyebrow: #8b681f;
+  --page-heading-shadow: #967533;
+}
+.app-shell .main-area.pastel-theme[data-tab="about"] {
+  --page-heading-start: #f4f6f7;
+  --page-heading-end: #dfe6ea;
+  --page-heading-glow: #a9c2d1;
+  --page-heading-accent: #557d93;
+  --page-heading-highlight: #afc8d6;
+  --page-heading-title: #263946;
+  --page-heading-copy: #526573;
+  --page-heading-eyebrow: #3f6b83;
+  --page-heading-shadow: #40576b;
+}
+.app-shell .main-area.pastel-theme[data-tab="feedback"] {
+  --page-heading-start: #243247;
+  --page-heading-end: #485b72;
+  --page-heading-glow: #efce85;
+  --page-heading-accent: #f1d58f;
+  --page-heading-highlight: #fff5d5;
+  --page-heading-title: var(--sa-white);
+  --page-heading-copy: #e0e8f0;
+  --page-heading-eyebrow: #f4dfaa;
+  --page-heading-shadow: #172438;
+}
+.app-shell .main-area.pastel-theme[data-tab="certificates"] {
+  --page-heading-start: #f8f6ef;
+  --page-heading-end: #e9e3d6;
+  --page-heading-glow: #7ab8ee;
+  --page-heading-accent: #487eba;
+  --page-heading-highlight: #a8d1f6;
+  --page-heading-title: #26354d;
+  --page-heading-copy: #5f6c7d;
+  --page-heading-eyebrow: #3c72aa;
+  --page-heading-shadow: #52657b;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] {
+  --page-heading-start: #142c49;
+  --page-heading-end: #294f78;
+  --page-heading-glow: #77caff;
+  --page-heading-accent: #80d5f7;
+  --page-heading-highlight: #def8ff;
+  --page-heading-title: var(--sa-white);
+  --page-heading-copy: #d5e9f5;
+  --page-heading-eyebrow: #b5e9fb;
+  --page-heading-shadow: #0d243c;
+}
+.app-shell .main-area.pastel-theme[data-tab="profile"] {
+  --page-heading-start: #f4f6f7;
+  --page-heading-end: #dfe6ea;
+  --page-heading-glow: #a9c2d1;
+  --page-heading-accent: #557d93;
+  --page-heading-highlight: #afc8d6;
+  --page-heading-title: #263946;
+  --page-heading-copy: #526573;
+  --page-heading-eyebrow: #3f6b83;
+  --page-heading-shadow: #40576b;
+}
+
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading {
+  min-height: 126px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: color-mix(in oklab, var(--page-heading-accent) 38%, var(--page-heading-start));
+  background:
+    radial-gradient(ellipse at 92% 8%, color-mix(in oklab, var(--page-heading-glow) 28%, transparent), transparent 36%),
+    linear-gradient(128deg, var(--page-heading-start), var(--page-heading-end));
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, var(--page-heading-shadow) 52%, transparent),
+    inset 0 1px color-mix(in oklab, var(--page-heading-highlight) 24%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading::before,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading::before,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading::before,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading::before,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading::before,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading::before {
+  position: absolute;
+  inset: 14px auto 14px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--page-heading-accent), var(--page-heading-highlight));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading::after,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading::after,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading::after,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading::after,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading::after,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading::after {
+  position: absolute;
+  top: -54px;
+  right: -24px;
+  z-index: -1;
+  width: 138px;
+  height: 138px;
+  border: 1px solid color-mix(in oklab, var(--page-heading-accent) 38%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 12px color-mix(in oklab, var(--page-heading-glow) 9%, transparent),
+    0 0 0 27px color-mix(in oklab, var(--page-heading-glow) 5%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading > *,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading > *,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading > *,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading > *,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading > *,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading > div:first-child,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading > div:first-child,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading > div:first-child,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading > div:first-child,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading > div:first-child,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading > div:first-child {
+  width: calc(100% - 112px);
+  min-width: 0;
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading .eyebrow,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading .eyebrow,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading .eyebrow,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading .eyebrow,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading .eyebrow,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading .eyebrow {
+  color: var(--page-heading-eyebrow);
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading h2,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading h2,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading h2,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading h2,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading h2,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading h2 {
+  color: var(--page-heading-title);
+}
+.app-shell .main-area.pastel-theme[data-tab="fees"] .page-stack > .section-heading p,
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading p,
+.app-shell .main-area.pastel-theme[data-tab="feedback"] .page-stack > .section-heading p,
+.app-shell .main-area.pastel-theme[data-tab="certificates"] .page-stack > .section-heading p,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading p,
+.app-shell .main-area.pastel-theme[data-tab="profile"] .page-stack > .section-heading p {
+  color: var(--page-heading-copy);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] {
+  --resume-banner-start: var(--sa-paper);
+  --resume-banner-end: var(--sa-white);
+  --resume-banner-accent: var(--sa-navy-soft);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading {
+  min-height: 136px;
+  padding: 18px 22px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--resume-banner-accent) 42%, var(--resume-banner-start));
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 92% 8%, color-mix(in oklab, var(--resume-banner-accent) 27%, transparent), transparent 36%),
+    linear-gradient(128deg, var(--resume-banner-start), var(--resume-banner-end));
+  box-shadow: 0 18px 40px -24px color-mix(in oklab, var(--sa-ink) 18%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading::before {
+  position: absolute;
+  inset: 16px auto 16px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--resume-banner-accent), var(--sa-white));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading::after {
+  position: absolute;
+  top: -58px;
+  right: 104px;
+  z-index: -1;
+  width: 138px;
+  height: 138px;
+  border: 1px solid color-mix(in oklab, var(--resume-banner-accent) 32%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 14px color-mix(in oklab, var(--resume-banner-accent) 7%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading .eyebrow {
+  color: var(--resume-banner-accent);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading h2 {
+  color: var(--sa-ink);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page-heading p {
+  color: var(--sa-ink-muted-strong);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-print-button {
+  border-color: var(--resume-banner-accent) !important;
+  background: var(--resume-banner-accent) !important;
+  color: var(--resume-banner-start) !important;
+}
+
+.app-shell .main-area.pastel-theme[data-tab="batch"] .welcome-banner {
+  border: 1px solid color-mix(in oklab, var(--sa-gold) 48%, #172a46);
+  background:
+    radial-gradient(ellipse at 92% 10%, color-mix(in oklab, var(--sa-gold) 24%, transparent), transparent 34%),
+    linear-gradient(128deg, #172a46, #345d87 68%, #406b92) !important;
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, #10243a 68%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 18%, transparent);
+}
+
+.class-test-row-actions {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+}
+
+/* Shared portal rhythm: one calm canvas, readable headings, and consistent surfaces. */
+.app-shell {
+  background: var(--sa-paper);
+}
+.app-shell .main-area {
+  background: var(--sa-paper) !important;
+}
+.app-shell .page-stack {
+  gap: 22px;
+}
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) {
+  min-height: 0 !important;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 2px 0 5px !important;
+  overflow: visible;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading)::before,
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading)::after {
+  display: none !important;
+}
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) > div:first-child {
+  width: auto !important;
+  min-width: 0;
+}
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) .eyebrow {
+  margin-bottom: 6px;
+  color: var(--sa-ember-accessible) !important;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) h2 {
+  margin: 0;
+  color: var(--sa-ink) !important;
+  font-size: clamp(24px, 2.5vw, 30px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) p {
+  max-width: 70ch;
+  margin: 7px 0 0;
+  color: var(--sa-ink-muted-strong) !important;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.app-shell .page-stack > .section-heading > :last-child:not(:first-child) {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+.app-shell .mobile-page-heading {
+  margin-bottom: 20px;
+}
+.app-shell .mobile-page-heading h1 {
+  color: var(--sa-ink);
+  font-size: clamp(23px, 5vw, 28px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.app-shell .mobile-page-heading p {
+  max-width: 70ch;
+  color: var(--sa-ink-muted-strong);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.app-shell .panel,
+.app-shell .stat-card,
+.app-shell .course-card,
+.app-shell .assignment-card,
+.app-shell .notification-card,
+.app-shell .day-column,
+.app-shell .fee-challan,
+.app-shell .certificate-card,
+.app-shell .search-results {
+  border-radius: var(--sa-radius-card);
+  border-color: var(--sa-line);
+  box-shadow: var(--sa-shadow-sm);
+}
+.app-shell .panel-heading h3 {
+  color: var(--sa-ink);
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+.app-shell .panel-heading p,
+.app-shell .muted-text {
+  color: var(--sa-ink-muted-strong);
+  line-height: 1.55;
+}
+.app-shell .stat-card {
+  border: 1px solid var(--sa-line) !important;
+  background: var(--sa-white) !important;
+  color: var(--sa-ink) !important;
+}
+.app-shell .stat-card .stat-value,
+.app-shell .stat-card .stat-label {
+  color: var(--sa-ink) !important;
+}
+.app-shell .stat-card .stat-detail,
+.app-shell .stat-card .stat-trend {
+  color: var(--sa-ink-muted-strong) !important;
+}
+/* Shared control sizing and a visible keyboard focus ring. */
+.login-page :where(button, [role="button"]),
+.student-onboarding-page :where(button, [role="button"]) {
+  min-height: var(--sa-control-height);
+  border-radius: var(--sa-radius-control);
+}
+.app-shell :where(.icon-button, .notification-button, .mobile-close),
+.login-page :where(.icon-button),
+.student-onboarding-page :where(.icon-button) {
+  min-width: var(--sa-control-height);
+}
+.app-shell :where(.icon-button, .notification-button, .mobile-close) {
+  min-height: var(--sa-control-height);
+}
+.app-shell .sidebar .nav-link {
+  min-height: var(--sa-control-height);
+}
+.app-shell :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea),
+.login-page :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea),
+.student-onboarding-page :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  min-height: var(--sa-control-height);
+  border-radius: var(--sa-radius-control);
+}
+.app-shell :where(button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible,
+.login-page :where(button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible,
+.student-onboarding-page :where(button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 3px solid var(--sa-focus) !important;
+  outline-offset: 3px !important;
+}
+.app-shell :where(button, a[href]):disabled,
+.app-shell :where(button, a[href])[aria-disabled="true"],
+.login-page :where(button, a[href]):disabled,
+.student-onboarding-page :where(button, a[href]):disabled {
+  cursor: not-allowed;
+}
+.app-shell .primary-button,
+.login-page .primary-button,
+.student-onboarding-page .primary-button {
+  min-height: var(--sa-control-height);
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--sa-radius-control);
+  background: var(--sa-ember-accessible) !important;
+  color: var(--sa-white) !important;
+  font-weight: 750;
+  box-shadow: var(--sa-shadow-sm);
+}
+.app-shell .primary-button:hover,
+.login-page .primary-button:hover,
+.student-onboarding-page .primary-button:hover {
+  background: color-mix(in oklab, var(--sa-ember-accessible) 88%, var(--sa-ink)) !important;
+}
+.app-shell :where(.secondary-button, .outline-button),
+.login-page :where(.secondary-button, .outline-button),
+.student-onboarding-page :where(.secondary-button, .outline-button) {
+  min-height: var(--sa-control-height);
+  padding: 9px 14px;
+  border-radius: var(--sa-radius-control);
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .app-shell .page-stack {
+    gap: 19px;
+  }
+  .app-shell .content-area {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  .app-shell .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .app-shell .page-stack > .section-heading > :last-child:not(:first-child) {
+    width: 100%;
+    margin-left: 0;
+  }
+  .app-shell .page-stack > .section-heading > :last-child:not(:first-child) > button {
+    width: 100%;
+  }
+  .app-shell .panel,
+  .app-shell .stat-card,
+  .app-shell .course-card,
+  .app-shell .assignment-card,
+  .app-shell .notification-card,
+  .app-shell .day-column,
+  .app-shell .fee-challan,
+  .app-shell .certificate-card,
+  .app-shell .search-results {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .app-shell .content-area {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+  .app-shell .panel {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
+
+.app-shell .retest-action-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+}
+.app-shell .retest-action-copy {
+  min-width: 0;
+}
+.app-shell .retest-action-copy p {
+  margin: 5px 0 0;
+  color: var(--sa-ink-muted-strong);
+}
+.app-shell .staff-filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: end;
+  margin-top: 16px;
+}
+.app-shell .staff-filter-row label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.app-shell .staff-filter-row .select-control {
+  width: 100%;
+}
+
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page {
+  max-width: 850px;
+  padding: 38px 44px;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 12%, var(--sa-white));
+  border-top: 4px solid var(--sa-navy-soft);
+  border-radius: 12px;
+  background: var(--sa-white);
+  box-shadow: 0 14px 36px -24px color-mix(in oklab, var(--sa-ink) 36%, transparent);
+  color: var(--sa-ink);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page:hover {
+  transform: none;
+  box-shadow: 0 14px 36px -24px color-mix(in oklab, var(--sa-ink) 36%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-header {
+  padding-bottom: 22px;
+  border-bottom: 1px solid color-mix(in oklab, var(--sa-ink) 22%, var(--sa-white));
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-identity h1 {
+  color: var(--sa-ink);
+  font-size: clamp(30px, 4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-identity > p {
+  margin: 8px 0 12px;
+  color: var(--sa-navy-soft);
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-contact {
+  gap: 6px 18px;
+  color: var(--sa-ink-muted-strong);
+  font-size: 12px;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-section {
+  padding: 20px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--sa-ink) 12%, var(--sa-white));
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: var(--sa-navy-soft);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-section h3::after {
+  height: 1px;
+  flex: 1;
+  background: color-mix(in oklab, var(--sa-ink) 14%, var(--sa-white));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-section > p,
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-education p {
+  color: var(--sa-ink-muted-strong);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-skill-list {
+  gap: 7px 28px;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-skill-list li {
+  color: var(--sa-ink-muted-strong);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-education-heading {
+  gap: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-education-heading strong {
+  color: var(--sa-ink);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-education-heading span {
+  color: var(--sa-ink-muted-strong);
+}
+.app-shell .main-area.pastel-theme[data-tab="resume"] .resume-note {
+  padding-top: 14px;
+  color: var(--sa-ink-muted);
+  font-size: 11px;
+}
+
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading {
+  display: flex !important;
+  min-height: 126px !important;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px !important;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--page-heading-accent) 38%, var(--page-heading-start)) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(ellipse at 92% 8%, color-mix(in oklab, var(--page-heading-glow) 28%, transparent), transparent 36%),
+    linear-gradient(128deg, var(--page-heading-start), var(--page-heading-end)) !important;
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, var(--page-heading-shadow) 52%, transparent),
+    inset 0 1px color-mix(in oklab, var(--page-heading-highlight) 24%, transparent) !important;
+  position: relative;
+  isolation: isolate;
+}
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading::before {
+  display: block !important;
+  position: absolute;
+  inset: 14px auto 14px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--page-heading-accent), var(--page-heading-highlight));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading::after {
+  display: block !important;
+  position: absolute;
+  top: -54px;
+  right: -24px;
+  z-index: -1;
+  width: 138px;
+  height: 138px;
+  border: 1px solid color-mix(in oklab, var(--page-heading-accent) 38%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 12px color-mix(in oklab, var(--page-heading-glow) 9%, transparent),
+    0 0 0 27px color-mix(in oklab, var(--page-heading-glow) 5%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading .eyebrow {
+  color: var(--page-heading-eyebrow) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading h2 {
+  color: var(--page-heading-title) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="about"] .page-stack > .section-heading p {
+  color: var(--page-heading-copy) !important;
+}
+
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading {
+  display: flex !important;
+  min-height: 136px !important;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 22px !important;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--sa-success) 34%, var(--sa-paper)) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(ellipse at 92% 8%, color-mix(in oklab, var(--sa-success) 18%, transparent), transparent 34%),
+    radial-gradient(ellipse at 4% 100%, color-mix(in oklab, var(--sa-gold) 18%, transparent), transparent 40%),
+    linear-gradient(128deg, color-mix(in oklab, var(--sa-success) 9%, var(--sa-white)), var(--sa-paper) 62%, color-mix(in oklab, var(--sa-gold) 10%, var(--sa-white))) !important;
+  box-shadow:
+    0 18px 40px -24px color-mix(in oklab, var(--sa-success) 24%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 82%, transparent) !important;
+  position: relative;
+  isolation: isolate;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading::before {
+  display: block !important;
+  position: absolute;
+  inset: 16px auto 16px 0;
+  z-index: 1;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(var(--sa-success), var(--sa-teal));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading::after {
+  display: block !important;
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  z-index: -1;
+  width: 92px;
+  height: 78px;
+  transform: translateY(-50%) rotate(2deg);
+  border: 1px solid color-mix(in oklab, var(--sa-success) 36%, var(--sa-paper));
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 78% 24%, var(--sa-success) 0 4px, transparent 4.8px),
+    linear-gradient(var(--sa-success) 0 0) 14px 18px / 46px 3px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-ink) 32%, transparent) 0 0) 14px 32px / 62px 2px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-ink) 24%, transparent) 0 0) 14px 42px / 54px 2px no-repeat,
+    linear-gradient(color-mix(in oklab, var(--sa-ink) 17%, transparent) 0 0) 14px 52px / 41px 2px no-repeat,
+    linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-success) 6%, var(--sa-paper)));
+  box-shadow:
+    0 14px 28px -17px color-mix(in oklab, var(--sa-success) 26%, transparent),
+    inset 0 1px var(--sa-white);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading > div:first-child {
+  width: calc(100% - 112px) !important;
+  min-width: 0;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading .eyebrow {
+  color: color-mix(in oklab, var(--sa-success) 72%, var(--sa-ink)) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading h2 {
+  color: var(--sa-ink) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="classtests"] .page-stack > .section-heading p {
+  color: var(--sa-ink-muted-strong) !important;
+}
+
+@media (max-width: 720px) {
+  .app-shell .main-area.pastel-theme[data-tab="resume"] .resume-page {
+    padding: 28px 22px;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="resume"] .resume-skill-list {
+    grid-template-columns: 1fr;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="resume"] .resume-education-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="resume"] .resume-education-heading span {
+    text-align: left;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell .retest-action-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .app-shell .retest-action-card > button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+.student-onboarding-page {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 12% 10%, color-mix(in oklab, var(--sa-ember) 28%, transparent), transparent 34%),
+    radial-gradient(ellipse at 88% 88%, color-mix(in oklab, var(--sa-gold) 18%, transparent), transparent 32%),
+    linear-gradient(135deg, var(--sa-ink), color-mix(in oklab, var(--sa-ink) 84%, var(--sa-ember)));
+}
+.student-onboarding-card {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 760px);
+  padding: clamp(22px, 4vw, 36px);
+  overflow: auto;
+  border: 1px solid color-mix(in oklab, var(--sa-white) 70%, transparent);
+  border-radius: 26px;
+  background: linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-paper) 74%, var(--sa-white)));
+  box-shadow:
+    0 32px 80px -30px color-mix(in oklab, var(--sa-ink) 56%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 88%, transparent);
+}
+.student-onboarding-card::before {
+  position: absolute;
+  inset: 0 32px auto;
+  height: 4px;
+  border-radius: 0 0 8px 8px;
+  background: var(--sa-grad-ember);
+  content: "";
+  pointer-events: none;
+}
+.student-onboarding-brand {
+  color: var(--sa-ink-muted-strong);
+  letter-spacing: 0.14em;
+}
+.student-onboarding-brand > span,
+.student-onboarding-icon {
+  border: 1px solid color-mix(in oklab, var(--sa-white) 42%, transparent);
+  background: var(--sa-grad-ember);
+  color: var(--sa-white);
+  box-shadow: var(--sa-shadow-ember);
+}
+.student-onboarding-brand > span {
+  border-radius: 14px;
+}
+.student-onboarding-progress {
+  width: fit-content;
+  gap: 12px;
+  margin: 20px 0 24px;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in oklab, var(--sa-ember) 16%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-ember) 5%, var(--sa-white));
+}
+.student-onboarding-progress span {
+  width: 30px;
+  height: 30px;
+  border-color: color-mix(in oklab, var(--sa-ink) 14%, var(--sa-line));
+  background: var(--sa-white);
+}
+.student-onboarding-progress span.complete {
+  border-color: transparent;
+  background: var(--sa-grad-ember);
+  color: var(--sa-white);
+}
+.student-onboarding-progress span.current {
+  border-color: var(--sa-ink);
+  background: var(--sa-ink);
+  color: var(--sa-gold);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--sa-ember) 13%, transparent);
+}
+.student-onboarding-progress i {
+  width: clamp(34px, 8vw, 58px);
+  background: linear-gradient(90deg, var(--sa-ember), color-mix(in oklab, var(--sa-gold) 70%, var(--sa-white)));
+}
+.student-onboarding-card h1 {
+  color: var(--sa-ink);
+  font-size: clamp(23px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+.student-onboarding-card form > p {
+  max-width: 58ch;
+  color: var(--sa-ink-muted-strong);
+  font-size: 13px;
+}
+.student-onboarding-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+}
+.student-onboarding-card form > label:not(.student-photo-upload) {
+  color: var(--sa-ink-muted-strong);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+}
+.student-onboarding-fields {
+  gap: 13px 15px;
+}
+.student-onboarding-fields > label {
+  color: var(--sa-ink-muted-strong);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+}
+.student-onboarding-card input:not([type="file"]),
+.student-onboarding-card select,
+.student-onboarding-card textarea {
+  min-height: 44px;
+  padding: 10px 12px;
+  border-color: color-mix(in oklab, var(--sa-ink) 12%, var(--sa-line));
+  border-radius: 12px;
+  background: var(--sa-white);
+  color: var(--sa-ink);
+  font-size: 13px;
+  transition: border-color 180ms var(--sa-ease), box-shadow 180ms var(--sa-ease), background 180ms var(--sa-ease);
+}
+.student-onboarding-card input[readonly],
+.student-onboarding-card select:disabled,
+.student-onboarding-card textarea[readonly] {
+  border-color: color-mix(in oklab, var(--sa-ink) 8%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-paper) 74%, var(--sa-white));
+  color: var(--sa-ink);
+  font-weight: 600;
+}
+.student-photo-upload {
+  min-height: 76px;
+  padding: 12px 14px;
+  border-color: color-mix(in oklab, var(--sa-ember) 38%, var(--sa-line));
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 95% 50%, color-mix(in oklab, var(--sa-gold) 15%, transparent), transparent 42%),
+    color-mix(in oklab, var(--sa-ember) 4%, var(--sa-white));
+  transition: transform 180ms var(--sa-ease), border-color 180ms var(--sa-ease), box-shadow 180ms var(--sa-ease);
+}
+.student-photo-upload:hover {
+  transform: translateY(-1px);
+  border-color: var(--sa-ember);
+  box-shadow: 0 10px 24px -18px var(--sa-ember);
+}
+.student-photo-upload img {
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--sa-white);
+  box-shadow: var(--sa-shadow-sm);
+}
+.student-photo-upload span {
+  color: var(--sa-ink);
+  font-size: 13px;
+}
+.student-photo-upload small,
+.student-field-hint {
+  color: var(--sa-ink-muted);
+}
+.student-onboarding-education {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 8%, var(--sa-line));
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--sa-paper) 68%, var(--sa-white));
+}
+.student-onboarding-section-heading {
+  margin-bottom: 14px;
+}
+.student-onboarding-section-heading h2 {
+  color: var(--sa-ink);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.student-onboarding-education-row {
+  padding: 14px;
+  border-color: color-mix(in oklab, var(--sa-ink) 9%, var(--sa-line));
+  border-radius: 14px;
+  background: var(--sa-white);
+}
+.student-onboarding-education-row label {
+  color: var(--sa-ink-muted-strong);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+.student-onboarding-page .student-onboarding-submit {
+  min-height: 50px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--sa-grad-ember) !important;
+  color: var(--sa-white) !important;
+  box-shadow: var(--sa-shadow-ember);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  transition: transform 180ms var(--sa-ease), box-shadow 180ms var(--sa-ease), filter 180ms var(--sa-ease);
+}
+.student-onboarding-page .student-onboarding-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px -16px color-mix(in oklab, var(--sa-ember) 78%, transparent);
+  filter: saturate(1.08);
+}
+.student-onboarding-error {
+  border-color: color-mix(in oklab, var(--sa-ember) 28%, var(--sa-line));
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--sa-ember) 8%, var(--sa-white));
+  color: var(--sa-ember-strong);
+}
+
+@media (max-width: 600px) {
+  .student-onboarding-page {
+    padding: 12px;
+  }
+  .student-onboarding-card {
+    max-height: calc(100dvh - 24px);
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+  .student-onboarding-card::before {
+    inset-inline: 20px;
+  }
+  .student-onboarding-education {
+    padding: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-photo-upload,
+  .student-onboarding-card input:not([type="file"]),
+  .student-onboarding-card select,
+  .student-onboarding-card textarea,
+  .student-onboarding-page .student-onboarding-submit {
+    transition: none;
+  }
+}
+
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading {
+  position: relative;
+  isolation: isolate;
+  min-height: 150px;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px !important;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 30%, var(--sa-ink)) !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(ellipse at 86% 12%, color-mix(in oklab, var(--sa-teal) 22%, transparent), transparent 34%),
+    radial-gradient(ellipse at 8% 100%, color-mix(in oklab, var(--sa-ember) 26%, transparent), transparent 42%),
+    linear-gradient(125deg, var(--sa-ink), color-mix(in oklab, var(--sa-ink) 76%, var(--sa-teal))) !important;
+  box-shadow:
+    0 22px 48px -28px color-mix(in oklab, var(--sa-ink) 70%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 18%, transparent) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading::after {
+  position: absolute;
+  top: 50%;
+  right: 180px;
+  z-index: -1;
+  width: 96px;
+  height: 96px;
+  transform: translateY(-50%);
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 44%, transparent);
+  border-radius: 30px;
+  box-shadow:
+    0 0 0 10px color-mix(in oklab, var(--sa-teal) 8%, transparent),
+    0 0 0 22px color-mix(in oklab, var(--sa-teal) 5%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading > * {
+  position: relative;
+  z-index: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading .eyebrow {
+  color: var(--sa-gold) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading h2 {
+  color: var(--sa-white) !important;
+  font-size: clamp(26px, 4vw, 34px);
+  letter-spacing: -0.045em;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading p {
+  color: color-mix(in oklab, var(--sa-white) 76%, var(--sa-teal)) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading .secondary-button {
+  border: 1px solid color-mix(in oklab, var(--sa-white) 26%, transparent) !important;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--sa-white) 11%, transparent) !important;
+  color: var(--sa-white) !important;
+  box-shadow: inset 0 1px color-mix(in oklab, var(--sa-white) 14%, transparent);
+  backdrop-filter: blur(12px);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading .secondary-button:hover {
+  border-color: color-mix(in oklab, var(--sa-gold) 54%, transparent) !important;
+  background: color-mix(in oklab, var(--sa-white) 18%, transparent) !important;
+  transform: translateY(-1px);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 7%, var(--sa-line));
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--sa-white) 92%, var(--sa-paper));
+  box-shadow: var(--sa-shadow-sm);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .segmented {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 6%, var(--sa-line));
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--sa-paper) 78%, var(--sa-white));
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .segmented button {
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--sa-ink-muted-strong);
+  font-size: 11px;
+  font-weight: 750;
+  transition: background 180ms var(--sa-ease), color 180ms var(--sa-ease), box-shadow 180ms var(--sa-ease);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .segmented button.selected {
+  background: var(--sa-ink);
+  color: var(--sa-white);
+  box-shadow: 0 4px 12px -6px color-mix(in oklab, var(--sa-ink) 64%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .filter-row > .muted-text {
+  padding: 6px 10px;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 22%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-teal) 9%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 64%, var(--sa-ink));
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-list {
+  gap: 12px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card {
+  position: relative;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border: 1px solid color-mix(in oklab, var(--sa-ink) 8%, var(--sa-line));
+  border-left: 4px solid transparent;
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--sa-white) 94%, var(--sa-paper));
+  box-shadow: 0 8px 22px -18px color-mix(in oklab, var(--sa-ink) 38%, transparent);
+  animation: notification-arrive 420ms var(--sa-ease) backwards;
+  transition: transform 180ms var(--sa-ease), border-color 180ms var(--sa-ease), box-shadow 180ms var(--sa-ease);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card:nth-child(2) {
+  animation-delay: 55ms;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card:nth-child(3) {
+  animation-delay: 110ms;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card:nth-child(4) {
+  animation-delay: 165ms;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--sa-teal) 30%, var(--sa-line));
+  box-shadow: 0 18px 30px -22px color-mix(in oklab, var(--sa-ink) 48%, transparent);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card:focus-visible {
+  outline: 3px solid var(--sa-teal);
+  outline-offset: 3px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card.notification-unread {
+  border-left-color: var(--sa-teal);
+  background:
+    linear-gradient(105deg, color-mix(in oklab, var(--sa-teal) 7%, var(--sa-white)), var(--sa-white) 46%);
+  box-shadow: 0 12px 26px -22px color-mix(in oklab, var(--sa-teal) 70%, var(--sa-ink));
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-icon {
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 18%, var(--sa-line));
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--sa-teal) 11%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 62%, var(--sa-ink));
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notify-class-test,
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notify-fee {
+  border-color: color-mix(in oklab, var(--sa-ember) 20%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-ember) 10%, var(--sa-white));
+  color: var(--sa-ember-strong);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notify-result {
+  border-color: color-mix(in oklab, var(--sa-success) 22%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-success) 10%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-success) 72%, var(--sa-ink));
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notify-batch-session {
+  border-color: color-mix(in oklab, var(--sa-gold) 32%, var(--sa-line));
+  background: color-mix(in oklab, var(--sa-gold) 15%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-gold) 58%, var(--sa-ink));
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-title {
+  align-items: center;
+  gap: 8px 10px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-title strong {
+  color: var(--sa-ink);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-content p {
+  margin: 5px 0 9px;
+  color: var(--sa-ink-muted-strong);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-content > span {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 0;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-paper) 78%, var(--sa-white));
+  color: var(--sa-ink-muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-content > span svg {
+  margin-top: 0;
+  color: var(--sa-teal);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .unread-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 22%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-teal) 10%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 68%, var(--sa-ink));
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .unread-label::before {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sa-teal);
+  content: "";
+}
+
+@keyframes notification-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading {
+    min-height: 0;
+    padding: 20px !important;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading::after {
+    display: none;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading .secondary-button {
+    width: fit-content;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 11px;
+    padding: 13px;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card {
+    animation: none;
+    transition: none;
+  }
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-card:hover,
+  .app-shell .main-area.pastel-theme[data-tab="notifications"] .section-heading .secondary-button:hover {
+    transform: none;
+  }
+}
+
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack {
+  gap: 16px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) {
+  min-height: 0 !important;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 18px 20px !important;
+  overflow: hidden !important;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 30%, var(--sa-ink)) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(ellipse at 86% 12%, color-mix(in oklab, var(--sa-teal) 22%, transparent), transparent 34%),
+    radial-gradient(ellipse at 8% 100%, color-mix(in oklab, var(--sa-ember) 26%, transparent), transparent 42%),
+    linear-gradient(125deg, var(--sa-ink), color-mix(in oklab, var(--sa-ink) 76%, var(--sa-teal))) !important;
+  box-shadow:
+    0 22px 48px -28px color-mix(in oklab, var(--sa-ink) 70%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 18%, transparent) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) .eyebrow {
+  color: var(--sa-gold) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) h2 {
+  color: var(--sa-white) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) p {
+  margin: 5px 0 0;
+  color: color-mix(in oklab, var(--sa-white) 76%, var(--sa-teal)) !important;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .page-stack > .section-heading:not(.exam-slots-heading):not(.leave-applications-heading):not(.fees-heading) > :last-child:not(:first-child) {
+  width: fit-content;
+  margin-left: 0;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .filter-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  min-height: 56px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .segmented button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-filter-count {
+  display: inline-grid;
+  min-width: 19px;
+  height: 19px;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-teal) 12%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 70%, var(--sa-ink));
+  font-size: 9px;
+  font-weight: 850;
+  line-height: 1;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .segmented button.selected .notification-filter-count {
+  background: color-mix(in oklab, var(--sa-gold) 25%, var(--sa-ink));
+  color: var(--sa-gold);
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-groups {
+  display: grid;
+  gap: 20px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-date-group {
+  display: grid;
+  gap: 9px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 2px;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-group-heading h3 {
+  margin: 0;
+  color: var(--sa-ink-muted-strong);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-group-heading::after {
+  height: 1px;
+  flex: 1;
+  background: color-mix(in oklab, var(--sa-ink) 9%, var(--sa-line));
+  content: "";
+}
+.app-shell .main-area.pastel-theme[data-tab="notifications"] .notification-group-heading > span {
+  display: grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 18%, var(--sa-line));
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--sa-teal) 8%, var(--sa-white));
+  color: color-mix(in oklab, var(--sa-teal) 65%, var(--sa-ink));
+  font-size: 10px;
+  font-weight: 800;
+}
+.notification-undo-toast {
+  position: fixed;
+  z-index: 1200;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  width: min(460px, calc(100vw - 32px));
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in oklab, var(--sa-white) 16%, transparent);
+  border-radius: 16px;
+  background: var(--sa-ink);
+  color: var(--sa-white);
+  box-shadow: 0 18px 48px -20px color-mix(in oklab, var(--sa-ink) 70%, transparent);
+  animation: notification-arrive 240ms var(--sa-ease) both;
+}
+.notification-undo-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 9px;
+  color: color-mix(in oklab, var(--sa-white) 88%, var(--sa-teal));
+  font-size: 12px;
+}
+.notification-undo-copy > svg {
+  flex: 0 0 auto;
+  color: var(--sa-teal);
+}
+.notification-undo-copy > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.notification-undo-copy strong {
+  color: var(--sa-white);
+}
+.notification-undo-toast button {
+  display: inline-grid;
+  min-height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+.notification-undo-toast .notification-undo-action {
+  padding: 0 10px;
+  color: var(--sa-gold);
+  font-size: 12px;
+  font-weight: 850;
+}
+.notification-undo-toast .notification-undo-dismiss {
+  width: 34px;
+  color: color-mix(in oklab, var(--sa-white) 70%, transparent);
+}
+.notification-undo-toast button:hover {
+  background: color-mix(in oklab, var(--sa-white) 10%, transparent);
+}
+.notification-undo-toast button:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .notification-undo-toast {
+    right: 12px;
+    bottom: 88px;
+    left: 12px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notification-undo-toast {
+    animation: none;
+  }
+}
+
+/* Login color accents */
+.login-page .login-form {
+  background:
+    radial-gradient(ellipse at 0% 0%, color-mix(in oklab, var(--sa-teal) 9%, transparent), transparent 38%),
+    radial-gradient(ellipse at 100% 100%, color-mix(in oklab, var(--sa-ember) 7%, transparent), transparent 36%),
+    linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-gold) 5%, var(--sa-white))) !important;
+}
+.login-page .login-heading .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in oklab, var(--sa-teal) 28%, var(--sa-gold));
+  border-radius: 999px;
+  background: linear-gradient(105deg, color-mix(in oklab, var(--sa-teal) 13%, var(--sa-white)), color-mix(in oklab, var(--sa-gold) 17%, var(--sa-white)), color-mix(in oklab, var(--sa-ember) 8%, var(--sa-white)));
+  color: var(--sa-ink) !important;
+}
+.login-page .login-heading .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sa-teal), var(--sa-ember));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--sa-teal) 12%, transparent);
+  content: "";
+}
+.login-page .input-wrap {
+  border-color: color-mix(in oklab, var(--sa-teal) 19%, var(--sa-gold)) !important;
+  background: linear-gradient(105deg, color-mix(in oklab, var(--sa-teal) 6%, var(--sa-white)), color-mix(in oklab, var(--sa-gold) 8%, var(--sa-white)), color-mix(in oklab, var(--sa-ember) 4%, var(--sa-white))) !important;
+}
+.login-page .input-wrap > svg {
+  color: color-mix(in oklab, var(--sa-teal) 62%, var(--sa-ink));
+}
+.login-page .input-wrap:has(#password) > svg {
+  color: color-mix(in oklab, var(--sa-ember) 68%, var(--sa-ink));
+}
+.login-page .input-wrap:focus-within {
+  border-color: var(--sa-teal) !important;
+  background: var(--sa-white) !important;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--sa-teal) 16%, transparent) !important;
+}
+.login-page .login-cta-dock {
+  border-color: color-mix(in oklab, var(--sa-teal) 20%, var(--sa-gold));
+  background: linear-gradient(105deg, color-mix(in oklab, var(--sa-teal) 13%, var(--sa-white)), color-mix(in oklab, var(--sa-gold) 16%, var(--sa-white)), color-mix(in oklab, var(--sa-ember) 9%, var(--sa-white)));
+}
+.login-page .login-cta-dock::before {
+  background:
+    radial-gradient(ellipse at 8% 50%, color-mix(in oklab, var(--sa-teal) 20%, transparent), transparent 45%),
+    radial-gradient(ellipse at 92% 50%, color-mix(in oklab, var(--sa-ember) 18%, transparent), transparent 45%);
+}
+.login-page .login-cta-dock.is-unlocked .login-submit {
+  background: linear-gradient(115deg, var(--sa-ember-accessible), var(--sa-ink)) !important;
+  box-shadow: 0 10px 24px -12px color-mix(in oklab, var(--sa-ember) 70%, transparent) !important;
+}
+.login-page .login-submit.secondary-button {
+  border-color: transparent !important;
+  background: linear-gradient(105deg, color-mix(in oklab, var(--sa-teal) 11%, var(--sa-white)), color-mix(in oklab, var(--sa-gold) 14%, var(--sa-white))) !important;
+}
+.login-page {
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 16% 14%, color-mix(in oklab, var(--sa-teal) 27%, transparent), transparent 40%),
+    radial-gradient(ellipse at 84% 78%, color-mix(in oklab, var(--sa-ember) 27%, transparent), transparent 42%),
+    radial-gradient(ellipse at 54% 52%, color-mix(in oklab, var(--sa-gold) 12%, transparent), transparent 48%),
+    linear-gradient(135deg, var(--sa-night), var(--sa-night-2), var(--sa-night)) !important;
+}
+.login-page .login-main {
+  isolation: isolate;
+}
+.login-page .login-main::before,
+.login-page .login-main::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+.login-page .login-main::before {
+  width: min(96vw, 640px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid color-mix(in oklab, var(--sa-white) 14%, transparent);
+  border-top-color: color-mix(in oklab, var(--sa-teal) 76%, transparent);
+  border-right-color: color-mix(in oklab, var(--sa-ember) 72%, transparent);
+  box-shadow:
+    0 0 0 18px color-mix(in oklab, var(--sa-teal) 4%, transparent),
+    0 0 32px color-mix(in oklab, var(--sa-teal) 12%, transparent);
+  will-change: transform;
+  animation: login-orbit 42s linear infinite;
+}
+.login-page .login-main::after {
+  width: min(125vw, 780px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(ellipse at 28% 30%, color-mix(in oklab, var(--sa-teal) 12%, transparent), transparent 46%),
+    radial-gradient(ellipse at 76% 74%, color-mix(in oklab, var(--sa-ember) 10%, transparent), transparent 48%);
+}
+.login-page .login-form {
+  position: relative;
+  z-index: 1;
+}
+.login-page .login-version {
+  z-index: 1;
+}
+.login-page .login-form {
+  background:
+    radial-gradient(ellipse at 0% 0%, color-mix(in oklab, var(--sa-teal) 12%, transparent), transparent 38%),
+    radial-gradient(ellipse at 100% 100%, color-mix(in oklab, var(--sa-ember) 10%, transparent), transparent 36%),
+    linear-gradient(145deg, var(--sa-white), color-mix(in oklab, var(--sa-gold) 8%, var(--sa-white))) !important;
+  box-shadow:
+    0 40px 80px -30px color-mix(in oklab, var(--sa-night) 100%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--sa-ember) 20%, transparent),
+    0 0 44px color-mix(in oklab, var(--sa-teal) 12%, transparent) !important;
+}
+.login-page .input-wrap {
+  border-color: transparent !important;
+  background: linear-gradient(105deg, color-mix(in oklab, var(--sa-teal) 10%, var(--sa-white)), color-mix(in oklab, var(--sa-gold) 13%, var(--sa-white)), color-mix(in oklab, var(--sa-ember) 7%, var(--sa-white))) !important;
+}
+.login-page .input-wrap:focus-within {
+  border-color: transparent !important;
+}
+.login-page .login-cta-dock {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.login-page .login-cta-dock::before {
+  background: none !important;
+}
+.login-page .login-cta-dock.is-unlocked .login-submit {
+  background: linear-gradient(115deg, var(--sa-ember-accessible), color-mix(in oklab, var(--sa-ink) 76%, var(--sa-teal))) !important;
+}
+
+@keyframes login-orbit {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-page .login-main::before {
+    animation: none !important;
+  }
+}
+
+.app-shell .hub-next-steps {
+  display: grid;
+  gap: 12px;
+  padding: 17px;
+  border: 1px solid var(--sa-line);
+  border-radius: 20px;
+  background: linear-gradient(120deg, var(--sa-white), color-mix(in oklab, var(--sa-teal) 5%, var(--sa-white)));
+  box-shadow: 0 8px 20px -18px color-mix(in oklab, var(--sa-ink) 35%, transparent);
+}
+.app-shell .hub-next-steps-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--sa-teal);
+}
+.app-shell .hub-next-steps-heading h2 {
+  margin: 3px 0 0;
+  color: var(--sa-ink);
+  font-size: 18px;
+}
+.app-shell .hub-next-steps-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 9px;
+}
+.app-shell .hub-next-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 58px;
+  padding: 10px 12px;
+  border: 1px solid var(--sa-line);
+  border-radius: 14px;
+  background: var(--sa-white);
+  color: var(--sa-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.app-shell .hub-next-step:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--sa-teal) 45%, var(--sa-line));
+  box-shadow: 0 7px 18px -14px var(--sa-ink);
+}
+.app-shell .hub-next-step:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 3px;
+}
+.app-shell .hub-next-step-icon {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 11px;
+  background: color-mix(in oklab, var(--sa-teal) 10%, var(--sa-white));
+  color: var(--sa-teal);
+}
+.app-shell .hub-next-step-copy {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+}
+.app-shell .hub-next-step-copy strong,
+.app-shell .hub-next-step-copy span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.app-shell .hub-next-step-copy strong {
+  color: var(--sa-ink);
+  font-size: 12px;
+}
+.app-shell .hub-next-step-copy span {
+  color: var(--sa-ink-muted-strong);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+.app-shell .hub-next-step > svg {
+  flex: 0 0 auto;
+  color: var(--sa-teal);
+}
+.app-shell .hub-progress-unlock {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: 11px;
+  background: color-mix(in oklab, var(--sa-teal) 7%, var(--sa-white));
+  color: var(--sa-ink-muted-strong);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.app-shell .portal-save-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 20px 0;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in oklab, var(--sa-danger) 32%, var(--sa-line));
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--sa-danger) 7%, var(--sa-white));
+  color: var(--sa-ink);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.app-shell .portal-save-error .secondary-button {
+  flex: 0 0 auto;
+}
+.app-shell .footer-status-warning {
+  color: var(--sa-danger);
+}
+.app-shell .footer-status-warning .footer-status-dot {
+  background: var(--sa-danger);
+}
+.app-shell .student-reminder-settings {
+  display: grid;
+  gap: 12px;
+  max-width: 620px;
+  padding: 16px;
+}
+.app-shell .student-reminder-settings > p {
+  margin: 0 0 4px;
+  color: var(--sa-ink-muted-strong);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.app-shell .student-reminder-settings > label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--sa-ink);
+  font-size: 13px;
+  font-weight: 650;
+}
+.app-shell .student-reminder-settings input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--sa-teal);
+}
+.app-shell .table-scroll {
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.app-shell .table-scroll::-webkit-scrollbar {
+  display: none;
+}
+.app-shell .table-scroll:focus-visible {
+  outline: 2px solid var(--sa-teal);
+  outline-offset: 3px;
+}
+.bottom-nav .bn-item {
+  min-height: 44px;
+}
+
+@media (max-width: 760px) {
+  .app-shell .hub-next-steps {
+    padding: 14px;
+    border-radius: 18px;
+  }
+  .app-shell .hub-next-steps-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .hub-next-step {
+    min-height: 62px;
+  }
+  .app-shell .week-calendar-actions {
+    flex-wrap: wrap;
+  }
+  .app-shell .portal-save-error {
+    align-items: stretch;
+    flex-direction: column;
+    margin: 10px 12px 0;
+  }
+  .app-shell .portal-save-error .secondary-button {
+    min-height: 42px;
+  }
+  .app-shell .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .student-profile-tabs {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .hub-next-step {
+    transition: none;
+  }
+  .app-shell .hub-next-step:hover {
+    transform: none;
+  }
+}
+
+/* Three-card statistic groups use the neon glass treatment from the portal reference. */
+.app-shell .main-area.pastel-theme .stats-grid.three-stats {
+  width: 100%;
+  margin-inline: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(n) {
+  --stat-card-surface: var(--sa-stat-violet-surface);
+  --stat-card-accent: var(--sa-stat-violet-accent);
+  --stat-card-glow: var(--sa-stat-violet-glow);
+  position: relative;
+  isolation: isolate;
+  padding: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid transparent !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--stat-card-glow) 25%, transparent), transparent 46%) padding-box,
+    var(--stat-card-surface) padding-box,
+    var(--stat-card-accent) border-box !important;
+  box-shadow:
+    0 0 26px -8px color-mix(in srgb, var(--stat-card-glow) 64%, transparent),
+    0 18px 34px -22px color-mix(in srgb, var(--stat-card-glow) 62%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 24%, transparent) !important;
+  color: var(--sa-white) !important;
+  animation: statCardEnter 0.5s var(--sa-ease) both;
+  transition: transform 0.25s var(--sa-ease), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(2) {
+  --stat-card-surface: var(--sa-stat-amber-surface);
+  --stat-card-accent: var(--sa-stat-amber-accent);
+  --stat-card-glow: var(--sa-stat-amber-glow);
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) {
+  --stat-card-surface: var(--sa-stat-teal-surface);
+  --stat-card-accent: var(--sa-stat-teal-accent);
+  --stat-card-glow: var(--sa-stat-teal-glow);
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card::before {
+  position: absolute;
+  z-index: 0;
+  top: -38%;
+  right: -7%;
+  width: 50%;
+  border: 1px solid color-mix(in srgb, var(--stat-card-glow) 58%, transparent);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background: var(--stat-card-accent);
+  opacity: 0.2;
+  box-shadow: 0 0 34px color-mix(in srgb, var(--stat-card-glow) 34%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card::after {
+  position: absolute;
+  z-index: 0;
+  right: -8%;
+  bottom: -68%;
+  width: 78%;
+  height: 118%;
+  transform: rotate(-9deg);
+  border-top: 1px solid color-mix(in srgb, var(--stat-card-glow) 54%, transparent);
+  border-radius: 50%;
+  background: var(--stat-card-accent);
+  opacity: 0.2;
+  content: "";
+  pointer-events: none;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card > *:not(.stat-watermark) {
+  position: relative !important;
+  z-index: 1 !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-top {
+  justify-content: flex-start !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-icon {
+  width: 54px;
+  height: 54px;
+  border: 1px solid color-mix(in srgb, var(--stat-card-glow) 82%, var(--sa-white));
+  border-radius: 50%;
+  background: var(--stat-card-accent) !important;
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--stat-card-glow) 62%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 34%, transparent);
+  color: var(--sa-white) !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-value,
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-label {
+  color: var(--sa-white) !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-value {
+  font-size: clamp(28px, 3vw, 38px) !important;
+  font-weight: 850;
+  line-height: 1.05;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-label {
+  font-size: 16px !important;
+  font-weight: 750;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-detail,
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-trend {
+  color: var(--sa-stat-subtitle) !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:hover {
+  z-index: 2;
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 34px -8px color-mix(in srgb, var(--stat-card-glow) 72%, transparent),
+    0 22px 40px -20px color-mix(in srgb, var(--stat-card-glow) 70%, transparent),
+    inset 0 1px color-mix(in oklab, var(--sa-white) 30%, transparent) !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) {
+  grid-column: 1 / -1;
+  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  column-gap: 18px;
+  align-content: center;
+  align-items: center;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) .stat-top {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  align-self: center;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) .stat-value {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0 0 4px !important;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) .stat-label {
+  grid-column: 2;
+  grid-row: 2;
+}
+.app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) .stat-detail {
+  grid-column: 2;
+  grid-row: 3;
+}
+.app-shell .main-area.pastel-theme .leave-approved-stat .stat-watermark {
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 50% 20px auto auto !important;
+  width: clamp(92px, 13vw, 144px) !important;
+  height: auto !important;
+  transform: translateY(-50%) !important;
+  color: var(--sa-stat-teal-glow);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card {
+    min-height: 142px;
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+  .app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-icon {
+    width: 46px;
+    height: 46px;
+  }
+  .app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-value {
+    font-size: 30px !important;
+  }
+  .app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card .stat-label {
+    font-size: 14px !important;
+  }
+  .app-shell .main-area.pastel-theme .stats-grid.three-stats > .stat-card:nth-child(3) {
+    grid-template-columns: 58px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  .app-shell .main-area.pastel-theme .leave-approved-stat .stat-watermark {
+    right: 10px;
+    width: 92px;
+  }
+}
+
+.app-shell .module-unlock-checklist {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+.app-shell .module-unlock-checklist h3 {
+  margin: 3px 0 0;
+  color: var(--sa-ink);
+  font-size: 17px;
+}
+.app-shell .module-unlock-checklist ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.app-shell .module-unlock-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--sa-ink-muted);
+}
+.app-shell .module-unlock-checklist li > svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--sa-ember);
+}
+.app-shell .module-unlock-checklist li.is-complete > svg {
+  color: var(--sa-success);
+}
+.app-shell .module-unlock-checklist li span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.app-shell .module-unlock-checklist li strong {
+  color: var(--sa-ink);
+  font-size: 13px;
+}
+.app-shell .module-unlock-checklist li small {
+  color: var(--sa-ink-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.app-shell .table-scroll[role="region"][tabindex="0"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.app-shell .table-scroll[role="region"][tabindex="0"]:focus-visible {
+  outline: 2px solid var(--sa-ember);
+  outline-offset: 3px;
+}
+.app-shell .student-reminder-frequency {
+  display: grid;
+  gap: 6px;
+}
+.app-shell .student-reminder-feed-note {
+  margin: 0;
+  color: var(--sa-ink-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  .app-shell .module-unlock-checklist {
+    padding: 14px;
+  }
+  .app-shell .module-unlock-checklist h3 {
+    font-size: 15px;
+  }
+}
+

@@ -1,0 +1,47 @@
+/* Skill AI design tokens: every portal stylesheet reads these --sa-* values. */
+:root {
+  --sa-ink: oklch(0.25 0.05 262);
+  --sa-ink-muted: oklch(0.52 0.03 255);
+  --sa-ink-muted-strong: oklch(0.44 0.025 255);
+  --sa-line: oklch(0.93 0.014 75);
+  --sa-paper: oklch(0.982 0.007 80);
+  --sa-white: oklch(0.996 0.003 85);
+  --sa-night: oklch(0.2 0.04 260);
+  --sa-night-2: oklch(0.27 0.05 258);
+  --sa-ember: oklch(0.68 0.19 44);
+  --sa-ember-strong: oklch(0.6 0.19 40);
+  --sa-ember-accessible: oklch(0.46 0.13 40);
+  --sa-violet: oklch(0.63 0.22 300);
+  --sa-stat-violet-surface: linear-gradient(140deg, #160b3d, #101a46);
+  --sa-stat-violet-accent: linear-gradient(135deg, #7c3aed, #a855f7);
+  --sa-stat-violet-glow: #9333ea;
+  --sa-stat-amber-surface: linear-gradient(140deg, #111827, #24170d);
+  --sa-stat-amber-accent: linear-gradient(135deg, #f59e0b, #f97316);
+  --sa-stat-amber-glow: #f59e0b;
+  --sa-stat-teal-surface: linear-gradient(140deg, #022c2b, #064e3b);
+  --sa-stat-teal-accent: linear-gradient(135deg, #10b981, #00e5b0);
+  --sa-stat-teal-glow: #00e5b0;
+  --sa-stat-subtitle: #c4c9e8;
+  --sa-focus: oklch(0.5 0.13 250);
+  --sa-gold: oklch(0.81 0.14 78);
+  --sa-teal: oklch(0.7 0.1 195);
+  --sa-success: oklch(0.63 0.13 160);
+  --sa-danger: oklch(0.62 0.2 22);
+  --sa-navy-soft: oklch(0.5 0.11 260);
+
+  --sa-font-body: "Figtree", system-ui, sans-serif;
+  --sa-font-display: "Sora", "Figtree", system-ui, sans-serif;
+
+  --sa-grad-ember: linear-gradient(120deg, var(--sa-ember) 0%, oklch(0.74 0.17 60) 100%);
+  --sa-grad-night: linear-gradient(165deg, var(--sa-night) 0%, var(--sa-night-2) 100%);
+  --sa-shadow-sm: 0 1px 2px color-mix(in oklab, var(--sa-ink) 8%, transparent),
+    0 4px 14px -6px color-mix(in oklab, var(--sa-ink) 14%, transparent);
+  --sa-shadow-lg: 0 2px 4px color-mix(in oklab, var(--sa-ink) 6%, transparent),
+    0 22px 48px -20px color-mix(in oklab, var(--sa-ink) 32%, transparent);
+  --sa-shadow-ember: 0 12px 28px -12px color-mix(in oklab, var(--sa-ember) 70%, transparent);
+  --sa-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sa-radius: 16px;
+  --sa-radius-card: 18px;
+  --sa-radius-control: 12px;
+  --sa-control-height: 44px;
+}
